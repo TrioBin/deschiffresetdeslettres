@@ -14,11 +14,9 @@ public class Image implements Cloneable
 	
 	public Image(String path)
 	{
-		try
-		{
-			image = ImageIO.read(Image.class.getResourceAsStream(path));
-		} catch (IOException e)
-		{
+		try {
+			image = ImageIO.read(getClass().getResourceAsStream(path));
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		

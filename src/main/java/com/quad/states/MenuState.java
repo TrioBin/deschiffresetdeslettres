@@ -15,8 +15,8 @@ public class MenuState extends State {
 	private Image[] menus = new Image[4];
 	private float fadeFactor = 0f;
 
-	private int windowMouseX = 1920;
-	private int windowMouseY = 1080;
+	private int windowMouseX = 1535;
+	private int windowMouseY = 863;
 
 	@Override
 	public void init(GameContainer gc) {
@@ -38,11 +38,15 @@ public class MenuState extends State {
 			gc.stop();
 		}
 
+		// if (input.isButton(1)) {
+		// 	System.out.print(input.mouseX + " " + input.mouseY);
+		// }
+
 		if (input.isButton(1)) {
 			if (input.mouseX > 300 * windowMouseX / 1920 && input.mouseX < 600 * windowMouseX / 1920
 					&& input.mouseY > 700 * windowMouseY / 1080
 					&& input.mouseY < 900 * windowMouseY / 1080) {
-				System.out.println("Menu 1");
+						gc.getGame().setState(gc, 2);
 			} else if (input.mouseX > 800 * windowMouseX / 1920 && input.mouseX < 1100 * windowMouseX / 1920
 					&& input.mouseY > 600 * windowMouseY / 1080
 					&& input.mouseY < 800 * windowMouseY / 1080) {
@@ -67,8 +71,8 @@ public class MenuState extends State {
 			System.out.println("Image not loaded");
 		}
 
-		if (fadeFactor <= 1) {
-			fadeFactor += 0.01f;
+		if (fadeFactor <= 10) {
+			fadeFactor += 0.1f;
 		}
 
 		r.drawTransparentImage(menus[0], ImageUtils.lightenImage(menus[3], fadeFactor), 300, 700, 300,

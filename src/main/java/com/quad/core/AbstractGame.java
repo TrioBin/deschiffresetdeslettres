@@ -2,6 +2,8 @@ package com.quad.core;
 
 import com.quad.core.components.State;
 import com.quad.states.CinematicStart;
+import com.quad.states.DesChiffres;
+import com.quad.states.GameStartTest;
 import com.quad.states.MenuState;
 
 /**
@@ -17,13 +19,15 @@ import com.quad.states.MenuState;
 public class AbstractGame{
 	
 	private State[] states;
-	private int currentState = 1;
+	private int currentState = 2;
 	
 	//Pause
 	private boolean paused;
 	
 	//states
-	public static final int NUMSTATES = 2;
+	public static final int NUMSTATES = 4;
+
+	public CacheStorage cache = new CacheStorage();
 	
 	public AbstractGame(){
 		states = new State[NUMSTATES];
@@ -37,10 +41,16 @@ public class AbstractGame{
 	private void loadState(int state) {
 		if(state == 0) states[0] = new CinematicStart();
 		if(state == 1) states[1] = new MenuState();
+		if(state == 2) states[2] = new GameStartTest();
+		if(state == 3) states[3] = new DesChiffres();
 	}
 	
 	private void unloadState(int state) {
 		states[state] = null;
+	}
+
+	private void loadCinematic(String name, int length) {
+		
 	}
 	
 	public void setState(GameContainer gc,int state) {

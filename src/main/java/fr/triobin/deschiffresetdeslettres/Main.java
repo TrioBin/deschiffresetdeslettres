@@ -2,6 +2,7 @@ package fr.triobin.deschiffresetdeslettres;
 
 import com.quad.core.AbstractGame;
 import com.quad.core.GameContainer;
+import com.quad.core.fx.SoundClip;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
@@ -14,5 +15,6 @@ public class Main {
         gc.setDebug(true);
         gc.setFrameCap(30);
         gc.start();
+        SoundClip.toggleMute();
     }
 }
