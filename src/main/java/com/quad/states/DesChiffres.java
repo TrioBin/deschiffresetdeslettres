@@ -49,6 +49,14 @@ public class DesChiffres extends State {
 
     private ArrayList<Image> goalImages = new ArrayList<Image>();
 
+    private int[] azertyMinKeyboardListCode = { 97, 122, 101, 114, 116, 121, 117, 105, 111, 112, 113, 115, 100, 102,
+            103,
+            104, 106, 107, 108, 109, 119, 120, 99, 118, 98, 110 };
+
+    private int[] azertyMajKeyboardListCode = { 65, 90, 69, 82, 84, 89, 85, 73, 79, 80, 81, 83, 68, 70, 71, 72, 74, 75,
+            76,
+            77, 87, 88, 67, 86, 66, 78 };
+
     @Override
     public void init(GameContainer gc) {
         bgImage = new Image("/cinematics/one/0250.png");
@@ -119,25 +127,41 @@ public class DesChiffres extends State {
             reset();
         }
 
-        int[] azertyMinKeyboardListCode = { 97, 122, 101, 114, 116, 121, 117, 105, 111, 112, 113, 115, 100, 102, 103,
-                104, 106, 107, 108, 109, 119, 120, 99, 118, 98, 110 };
-
-        int[] azertyMajKeyboardListCode = { 65, 90, 69, 82, 84, 89, 85, 73, 79, 80, 81, 83, 68, 70, 71, 72, 74, 75, 76,
-                77, 87, 88, 67, 86, 66, 78 };
-
-        for (int i = 0; i < length; i++) {
-            if (input.isKeyPressed(azertyMinKeyboardListCode[i]) || input.isKeyPressed(azertyMajKeyboardListCode[i])) {
-                cardStatus.set(i, false);
-                if (cardUsed != 0) {
-                    calcul = lastCalulation.replace("b", "(" + calcul + ")").replace("c",
-                            "(" + generatedList.get(i).toString() + ")");
-                } else {
-                    calcul += generatedList.get(i);
+        if (opSelected != 0 || cardUsed == 0) {
+            for (int i = 0; i < length; i++) {
+                if (input.isKeyPressed(azertyMinKeyboardListCode[i])
+                        || input.isKeyPressed(azertyMajKeyboardListCode[i])) {
+                    cardStatus.set(i, false);
+                    if (cardUsed != 0) {
+                        calcul = lastCalulation.replace("b", "(" + calcul + ")").replace("c",
+                                "(" + generatedList.get(i).toString() + ")");
+                    } else {
+                        calcul += generatedList.get(i);
+                    }
+                    cardUsed++;
+                    opSelected = 0;
+                    System.out.println("Calcul: " + calcul);
+                    calculationOfResult();
                 }
-                cardUsed++;
-                opSelected = 0;
-                calculationOfResult();
             }
+        }
+
+        if (input.isKeyPressed(38)
+                || input.isKeyPressed(49)) {
+            lastCalulation = "b+c";
+            opSelected = 1;
+        } else if (input.isKeyPressed(233)
+                || input.isKeyPressed(50)) {
+            lastCalulation = "b-c";
+            opSelected = 2;
+        } else if (input.isKeyPressed(34)
+                || input.isKeyPressed(51)) {
+            lastCalulation = "c*b";
+            opSelected = 3;
+        } else if (input.isKeyPressed(39)
+                || input.isKeyPressed(52)) {
+            lastCalulation = "Math.floor(b/c)";
+            opSelected = 4;
         }
 
         if (input.isButton(1))
