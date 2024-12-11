@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import com.quad.core.GameContainer;
 import com.quad.core.Input;
 import com.quad.core.Renderer;
-import com.quad.core.components.ImageUtils;
 import com.quad.core.components.State;
 import com.quad.core.fx.Image;
-import com.quad.core.fx.SoundClip;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -115,6 +113,31 @@ public class DesChiffres extends State {
         // if s
         if (input.isKeyPressed(27)) {
             gc.stop();
+        }
+
+        if (input.isKeyPressed(32)) {
+            reset();
+        }
+
+        int[] azertyMinKeyboardListCode = { 97, 122, 101, 114, 116, 121, 117, 105, 111, 112, 113, 115, 100, 102, 103,
+                104, 106, 107, 108, 109, 119, 120, 99, 118, 98, 110 };
+
+        int[] azertyMajKeyboardListCode = { 65, 90, 69, 82, 84, 89, 85, 73, 79, 80, 81, 83, 68, 70, 71, 72, 74, 75, 76,
+                77, 87, 88, 67, 86, 66, 78 };
+
+        for (int i = 0; i < length; i++) {
+            if (input.isKeyPressed(azertyMinKeyboardListCode[i]) || input.isKeyPressed(azertyMajKeyboardListCode[i])) {
+                cardStatus.set(i, false);
+                if (cardUsed != 0) {
+                    calcul = lastCalulation.replace("b", "(" + calcul + ")").replace("c",
+                            "(" + generatedList.get(i).toString() + ")");
+                } else {
+                    calcul += generatedList.get(i);
+                }
+                cardUsed++;
+                opSelected = 0;
+                calculationOfResult();
+            }
         }
 
         if (input.isButton(1))
