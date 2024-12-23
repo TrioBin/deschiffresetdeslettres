@@ -15,6 +15,6 @@ public class Main {
         gc.setDebug(true);
         gc.setFrameCap(30);
         gc.start();
-        SoundClip.toggleMute();
+        //SoundClip.toggleMute();
     }
 }

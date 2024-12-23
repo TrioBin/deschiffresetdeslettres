@@ -52,6 +52,10 @@ const list = [
     "50",
     "75",
     "100",
+    "+",
+    "-",
+    "*",
+    "/",
 ]
 
 list.forEach(lettre => {
