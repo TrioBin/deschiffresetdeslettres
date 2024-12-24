@@ -81,14 +81,14 @@ public class Compte {
         return SolveTirage(solution);
     }
 
-    private enum Operation {
+    public enum Operation {
         Add,
         Multiply,
         Substract,
         Divide
     }
 
-    private Result Calculate(int[] steps, int l, int r, Operation op) {
+    public Result Calculate(int[] steps, int l, int r, Operation op) {
         Result result = new Result();
         result.steps = new int[steps.length-1];
         int n = 0;

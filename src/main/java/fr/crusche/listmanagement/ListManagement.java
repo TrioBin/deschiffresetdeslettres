@@ -12,7 +12,7 @@ public class ListManagement {
     }
     public static void ShowListPoint(ArrayList<Point> list) {
         for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).getX() + " " + list.get(i).getY());
+            System.out.print(list.get(i).getX() + ", " + list.get(i).getY()+"\n");
         }
     }
 }
