@@ -14,7 +14,7 @@ import org.mozilla.javascript.ScriptableObject;
 
 import fr.brisse.deschiffres.NumberList;
 
-public class DesChiffres extends State {
+public class DesChiffresSim extends State {
 
     private int windowMouseX = 1535;
     private int windowMouseY = 863;

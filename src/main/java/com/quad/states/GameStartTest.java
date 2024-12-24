@@ -29,15 +29,21 @@ public class GameStartTest extends State {
 			gc.stop();
 		}
 
-		gc.getGame().cache.currentPlayer += 1;
+		if (gc.getGame().cache.isGameSimultaneous) {
+			if (gc.getGame().cache.currentRound == 1) {
+				gc.getGame().setState(gc, 4);
+			}
+		} else {
+			gc.getGame().cache.currentPlayer += 1;
+	
+			if (gc.getGame().cache.currentPlayer > gc.getGame().cache.playerNumber) {
+				gc.getGame().cache.currentPlayer = 1;
+				gc.getGame().cache.currentRound = 2;
+			}
 
-		if (gc.getGame().cache.currentPlayer > 2) {
-			gc.getGame().cache.currentPlayer = 1;
-			gc.getGame().cache.currentRound = 2;
-		}
-
-		if (gc.getGame().cache.currentRound == 1) {
-			gc.getGame().setState(gc, 3);
+			if (gc.getGame().cache.currentRound == 1) {
+				gc.getGame().setState(gc, 3);
+			}
 		}
 	}
 
