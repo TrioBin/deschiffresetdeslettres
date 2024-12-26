@@ -2,10 +2,14 @@ package com.quad.states;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.Callable;
+
+import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 
 import com.quad.core.GameContainer;
 import com.quad.core.Input;
 import com.quad.core.Renderer;
+import com.quad.core.components.ButtonManager;
 import com.quad.core.components.State;
 import com.quad.core.fx.Image;
 
@@ -61,6 +65,8 @@ public class DesChiffresNotSim extends State {
             76,
             77, 87, 88, 67, 86, 66, 78 };
 
+    private ButtonManager buttonManager;
+
     @Override
     public void init(GameContainer gc) {
         bgImage = new Image("/cinematics/one/0250.png");
@@ -93,6 +99,8 @@ public class DesChiffresNotSim extends State {
 
         gc.loadSound("/sounds/rec1.wav", "jeu_chiffres");
         gc.playSound("jeu_chiffres");
+
+        buttonManager = new ButtonManager(gc);
     }
 
     @Override
@@ -192,6 +200,10 @@ public class DesChiffresNotSim extends State {
             opSelected = 4;
         }
 
+        buttonManager.linkInput(input);
+
+        buttonManager.testButtons();
+
         if (input.isButton(1))
 
         {
@@ -276,6 +288,15 @@ public class DesChiffresNotSim extends State {
                 r.drawImage(new Image("/images/chiffrescard/" + card[i] + ".png"),
                         CurrentX + i * cardWidth, 900, cardWidth, 150);
             }
+            final int cardIndex = index;
+            buttonManager.addButton("card" + Integer.toString(cardIndex + 1), new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    System.out.println("Card " + Integer.toString(cardIndex + 1) + " clicked");
+                    return null;
+                }
+            }, CurrentX, 900, CurrentX + cardWidth * card.length + gap, 150);
+            
             CurrentX += cardWidth * card.length + gap;
         }
 
