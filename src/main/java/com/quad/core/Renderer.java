@@ -30,8 +30,8 @@ public class Renderer
 	private GameContainer gc;
 
 	private int width, height;
-	private int[] pixels;
-	private int[] lightMap;
+	int[] pixels;
+	int[] lightMap;
 	private ShadowType[] shadowMap;
 	private Font font = Font.STANDARD;
 	private float ambientLight = Pixel.getColor(1, 0.1f, 0.1f, 0.1f);
@@ -41,7 +41,7 @@ public class Renderer
 	
 	private boolean translate = true;
 	
-	private ArrayList<LightRequest> lightRequests = new ArrayList<LightRequest>();
+	ArrayList<LightRequest> lightRequests = new ArrayList<LightRequest>();
 
 	public Renderer(GameContainer gc)
 	{

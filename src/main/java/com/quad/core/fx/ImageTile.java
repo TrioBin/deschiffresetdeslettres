@@ -11,4 +11,14 @@ public class ImageTile extends Image
 		this.tileHeight = tileHeight;
 	}
 
+    public Object getTileWidth() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTileWidth'");
+    }
+
+    public Object getTileHeight() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTileHeight'");
+    }
+
 }
