@@ -108,8 +108,11 @@ public class DesChiffresNotSim extends State {
         timer += dt;
 
         if (result == goalnumber) {
-            gc.getGame().cache.scores.get(gc.getGame().cache.currentPlayer - 1).addScore(10);
-            gc.getGame().cache.bestPlayerInTheRoundId = gc.getGame().cache.currentPlayer;
+            if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
+                gc.getGame().cache.bestPlayerInTheRoundId[gc.getGame().cache.bestPlayerInTheRoundId.length] = gc.getGame().cache.currentPlayer;
+            } else {
+                gc.getGame().cache.bestPlayerInTheRoundId = new int[]{gc.getGame().cache.currentPlayer};
+            }
             gc.getGame().cache.bestPlayerInTheRoundValue = 0;
             gc.getGame().setState(gc, 2);
         }
@@ -148,14 +151,21 @@ public class DesChiffresNotSim extends State {
                     String.format("Solution [%s]", (solution.best.value == solution.tirage ? "Exact" : "Approché")));
             System.out.print(solution.best.text);
 
-            if (solution.best.value == solution.tirage) {
-                gc.getGame().cache.scores.get(gc.getGame().cache.currentPlayer - 1).addScore(10);
-                gc.getGame().cache.bestPlayerInTheRoundId = gc.getGame().cache.currentPlayer;
+            if (solution.best.value == goalnumber) {
+                if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
+                    gc.getGame().cache.bestPlayerInTheRoundId[gc.getGame().cache.bestPlayerInTheRoundId.length] = gc.getGame().cache.currentPlayer;
+                } else {
+                    gc.getGame().cache.bestPlayerInTheRoundId = new int[]{gc.getGame().cache.currentPlayer};
+                }
                 gc.getGame().cache.bestPlayerInTheRoundValue = 0;
                 gc.getGame().setState(gc, 2);
             } else {
-                if (Math.abs(solution.best.value - goalnumber) > gc.getGame().cache.bestPlayerInTheRoundValue) {
-                    gc.getGame().cache.bestPlayerInTheRoundId = gc.getGame().cache.currentPlayer;
+                if (Math.abs(solution.best.value - goalnumber) >= gc.getGame().cache.bestPlayerInTheRoundValue) {
+                    if (gc.getGame().cache.bestPlayerInTheRoundValue == Math.abs(solution.best.value - goalnumber)) {
+                        gc.getGame().cache.bestPlayerInTheRoundId[gc.getGame().cache.bestPlayerInTheRoundId.length] = gc.getGame().cache.currentPlayer;
+                    } else {
+                        gc.getGame().cache.bestPlayerInTheRoundId = new int[]{gc.getGame().cache.currentPlayer};
+                    }
                     gc.getGame().cache.bestPlayerInTheRoundValue = Math.abs(solution.best.value - goalnumber);
                 }
                 gc.getGame().setState(gc, 2);

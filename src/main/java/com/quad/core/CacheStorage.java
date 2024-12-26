@@ -18,7 +18,7 @@ public class CacheStorage {
     public int currentRound = 1;
     public ArrayList<Score> scores = new ArrayList<Score>();
 
-    public int bestPlayerInTheRoundId = -1;
+    public int[] bestPlayerInTheRoundId = {};
     public int bestPlayerInTheRoundValue = -1;
 
     public CacheStorage() {
