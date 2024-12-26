@@ -12,7 +12,7 @@ public class CacheStorage {
     public int NumberCardChiffres = 6;
     public int playerNumber = 2;
     public float chiffreTimer = 45;
-    public boolean isGameSimultaneous = true;
+    public boolean isGameSimultaneous = false;
 
     public int currentPlayer = 0;
     public int currentRound = 1;

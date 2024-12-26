@@ -1,5 +1,7 @@
 package com.quad.states;
 
+import java.util.ArrayList;
+
 import com.quad.core.GameContainer;
 import com.quad.core.Input;
 import com.quad.core.Renderer;
@@ -8,6 +10,7 @@ import com.quad.core.components.State;
 import com.quad.core.fx.Image;
 
 import fr.crusche.beziermanagement.BezierCurve;
+import fr.triobin.deschiffresetdeslettres.Score;
 
 public class GameStartTest extends State {
 
@@ -29,13 +32,20 @@ public class GameStartTest extends State {
 			gc.stop();
 		}
 
+		if (gc.getGame().cache.currentRound == 1 && gc.getGame().cache.currentPlayer == 0) {
+			gc.getGame().cache.scores = new ArrayList<Score>();
+			for (int i = 0; i < gc.getGame().cache.playerNumber; i++) {
+				gc.getGame().cache.scores.add(new Score());
+			}
+		}
+
 		if (gc.getGame().cache.isGameSimultaneous) {
 			if (gc.getGame().cache.currentRound == 1) {
 				gc.getGame().setState(gc, 4);
 			}
 		} else {
 			gc.getGame().cache.currentPlayer += 1;
-	
+
 			if (gc.getGame().cache.currentPlayer > gc.getGame().cache.playerNumber) {
 				gc.getGame().cache.currentPlayer = 1;
 				gc.getGame().cache.currentRound = 2;

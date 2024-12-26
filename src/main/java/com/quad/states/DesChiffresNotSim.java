@@ -1,6 +1,7 @@
 package com.quad.states;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.quad.core.GameContainer;
 import com.quad.core.Input;
@@ -13,6 +14,9 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 import fr.brisse.deschiffres.NumberList;
+import fr.crusche.deschiffres.Compte;
+import fr.crusche.deschiffres.Result;
+import fr.crusche.deschiffres.Solution;
 
 public class DesChiffresNotSim extends State {
 
@@ -80,15 +84,6 @@ public class DesChiffresNotSim extends State {
 
         System.out.println("Generated List: " + generatedList);
 
-        int maxgap = 100;
-
-        gap = (1800 - length * cardWidth) / (length + 1);
-        if (gap > maxgap) {
-            gap = maxgap;
-        }
-
-        XOffset = (1920 - length * (cardWidth + gap) + gap) / 2;
-
         maskcardImage = new Image("/images/chiffrescard/maskcard.png");
         maskcardSelectedImage = new Image("/images/chiffrescard/maskcardselected.png");
         maskcardGoalImage = new Image("/images/chiffrescard/maskcardgoal.png");
@@ -106,10 +101,43 @@ public class DesChiffresNotSim extends State {
 
         if (result == goalnumber) {
             gc.getGame().setState(gc, 2);
+            gc.getGame().cache.scores.get(gc.getGame().cache.currentPlayer - 1).addScore(10);
         }
 
         if (timer >= maxtimer) {
             gc.getGame().setState(gc, 2);
+            Compte cpt = new Compte(convertToIntArray(generatedList));
+
+            // Liste de choix de plaques
+            int[] plaques = cpt.GetPlaques();
+
+            // Nombre à atteindre
+            int tirage = goalnumber;
+
+            // Initialize the recursive calculation root structure
+            Solution solution = new Solution();
+            solution.tirage = tirage;
+            solution.depth = plaques.length;
+            Result res = new Result();
+            res.steps = plaques;
+            res.text = "";
+            res.value = 0;
+            Arrays.sort(res.steps);
+            solution.current.add(res);
+
+            // Initialize the best approaching structure
+            solution.best = new Result();
+            solution.best.steps = res.steps;
+            solution.best.value = solution.best.steps[solution.best.steps.length - 1];
+            solution.best.text = String.format("%d", solution.best.value);
+
+            // Start the recursive resolution
+            solution = cpt.SolveTirage(solution);
+
+            // Output final result
+            System.out.println(
+                    String.format("Solution [%s]", (solution.best.value == solution.tirage ? "Exact" : "Approché")));
+            System.out.print(solution.best.text);
         }
 
         if (pauseInputTimer > 0) {
@@ -168,23 +196,24 @@ public class DesChiffresNotSim extends State {
 
         {
             if (opSelected != 0 || cardUsed == 0) {
-                for (int i = 0; i < length; i++) {
-                    if (input.mouseX > (XOffset + (i * (cardWidth + gap))) * windowMouseX / 1920
-                            && input.mouseX < ((XOffset + (i * (cardWidth + gap))) + cardWidth) * windowMouseX / 1920
-                            && input.mouseY > 900 * windowMouseY / 1080
-                            && input.mouseY < 1050 * windowMouseY / 1080 && cardStatus.get(i)) {
-                        cardStatus.set(i, false);
-                        if (cardUsed != 0) {
-                            calcul = lastCalulation.replace("b", "(" + calcul + ")").replace("c",
-                                    "(" + generatedList.get(i).toString() + ")");
-                        } else {
-                            calcul += generatedList.get(i);
-                        }
-                        cardUsed++;
-                        opSelected = 0;
-                        calculationOfResult();
-                    }
-                }
+                // for (int i = 0; i < length; i++) {
+                // if (input.mouseX > (XOffset + (i * (cardWidth + gap))) * windowMouseX / 1920
+                // && input.mouseX < ((XOffset + (i * (cardWidth + gap))) + cardWidth) *
+                // windowMouseX / 1920
+                // && input.mouseY > 900 * windowMouseY / 1080
+                // && input.mouseY < 1050 * windowMouseY / 1080 && cardStatus.get(i)) {
+                // cardStatus.set(i, false);
+                // if (cardUsed != 0) {
+                // calcul = lastCalulation.replace("b", "(" + calcul + ")").replace("c",
+                // "(" + generatedList.get(i).toString() + ")");
+                // } else {
+                // calcul += generatedList.get(i);
+                // }
+                // cardUsed++;
+                // opSelected = 0;
+                // calculationOfResult();
+                // }
+                // }
             }
 
             if (input.mouseX > 610 * windowMouseX / 1920 && input.mouseX < 710 * windowMouseX / 1920
@@ -223,19 +252,31 @@ public class DesChiffresNotSim extends State {
         // Render state
         r.drawImage(bgImage, 0, 0, 1920, 1080);
 
-        for (int index = 0; index < length; index++) {
-            if (cardStatus.get(index)) {
-                r.drawTransparentImage(
-                        new Image("/images/chiffrescard/" + String.valueOf(generatedList.get(index)) + ".png"),
-                        maskcardImage,
-                        XOffset + index * (cardWidth + gap), 900, cardWidth, 150);
-            } else {
-                r.drawTransparentImage(
-                        new Image("/images/chiffrescard/" + String.valueOf(generatedList.get(index)) + ".png"),
-                        maskcardSelectedImage,
-                        XOffset + index * (cardWidth + gap), 900, cardWidth, 150);
+        int cardNumber = 0;
+        for (int i = 0; i < length; i++) {
+            cardNumber += String.valueOf(generatedList.get(i)).length();
+        }
+        int cardWidthAddition = cardWidth;
+        int largeur = cardWidth * cardNumber;
 
+        int maxgap = 100;
+
+        gap = (1800 - largeur) / (length + 1);
+        if (gap > maxgap) {
+            gap = maxgap;
+        }
+
+        XOffset = (1920 - (largeur + length * gap) + gap) / 2;
+
+        int CurrentX = XOffset;
+
+        for (int index = 0; index < length; index++) {
+            char[] card = String.valueOf(generatedList.get(index)).toCharArray();
+            for (int i = 0; i < card.length; i++) {
+                r.drawImage(new Image("/images/chiffrescard/" + card[i] + ".png"),
+                        CurrentX + i * cardWidth, 900, cardWidth, 150);
             }
+            CurrentX += cardWidth * card.length + gap;
         }
 
         for (int i = 0; i < String.valueOf(goalnumber).length(); i++) {
@@ -309,5 +350,16 @@ public class DesChiffresNotSim extends State {
         cardUsed = 0;
         opSelected = 0;
         result = 0;
+    }
+
+    // method to convert ArrayList<Integer> to int[]
+    private static int[] convertToIntArray(ArrayList<Integer> list) {
+        int[] intArray = new int[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            intArray[i] = list.get(i);
+        }
+
+        return intArray;
     }
 }

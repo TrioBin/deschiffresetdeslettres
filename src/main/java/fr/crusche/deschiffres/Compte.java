@@ -3,46 +3,15 @@ package fr.crusche.deschiffres;
 import java.util.*;
 
 public class Compte {
-    private final int nbPlaques = 24;
-    private final int nbTirage = 6;
-    private final int  minTirage= 101;
-    private final int  maxTirage= 999;
-    private int[] plaques = new int[nbPlaques];
+    private int[] plaques;
     private Random rnd = new Random();
 
-    public Compte() {
-        int idx = 0;
-        for (int n = 1; n <= 10; n++) {
-            plaques[idx] = n;
-            plaques[idx+1] = n;
-            idx += 2;
-        }
-        plaques[idx++] = 25;
-        plaques[idx++] = 50;
-        plaques[idx++] = 75;
-        plaques[idx++] = 100;
+    public Compte(int[] plaques) {
+        this.plaques = plaques;
     }
 
     public int[] GetPlaques() {
-        List<Integer> chosenIdx = new ArrayList<Integer>();
-        int nbChosen = 0;
-        while (nbChosen < nbTirage) {
-            int p = rnd.nextInt(nbPlaques);
-            if (!chosenIdx.contains(p)) {
-                chosenIdx.add(p);
-                nbChosen++;
-            }
-        }
-
-        int[] tirage = new int[nbTirage];
-        for (int i=0; i<nbTirage; i++) {
-            tirage[i] = plaques[chosenIdx.get(i)];
-        }
-        return tirage;
-    }
-
-    public int GetTirage() {
-        return minTirage + rnd.nextInt(maxTirage - minTirage + 1);
+        return plaques;
     }
 
     public Solution SolveTirage(Solution solution) {
