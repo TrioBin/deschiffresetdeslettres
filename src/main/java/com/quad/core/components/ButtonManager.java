@@ -62,6 +62,15 @@ public class ButtonManager {
 
     public void removeButton(String name) {
         System.out.println("Button " + name + " removed");
+        if (name.startsWith("*")) {
+            for (Object key : buttons.keySet()) {
+                if (key.toString().startsWith(name.replace("*", ""))) {
+                    buttons.remove(key);
+                }
+            }
+        } else {
+            buttons.remove(name);
+        }
     }
 
     public void resetButtons() {

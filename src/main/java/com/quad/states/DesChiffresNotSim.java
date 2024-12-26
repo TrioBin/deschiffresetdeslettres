@@ -295,7 +295,7 @@ public class DesChiffresNotSim extends State {
                     System.out.println("Card " + Integer.toString(cardIndex + 1) + " clicked");
                     return null;
                 }
-            }, CurrentX, 900, CurrentX + cardWidth * card.length + gap, 150);
+            }, CurrentX, 900, cardWidth * card.length + gap, 150);
             
             CurrentX += cardWidth * card.length + gap;
         }
