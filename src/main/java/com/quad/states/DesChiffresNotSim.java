@@ -108,12 +108,13 @@ public class DesChiffresNotSim extends State {
         timer += dt;
 
         if (result == goalnumber) {
-            gc.getGame().setState(gc, 2);
             gc.getGame().cache.scores.get(gc.getGame().cache.currentPlayer - 1).addScore(10);
+            gc.getGame().cache.bestPlayerInTheRoundId = gc.getGame().cache.currentPlayer;
+            gc.getGame().cache.bestPlayerInTheRoundValue = 0;
+            gc.getGame().setState(gc, 2);
         }
 
         if (timer >= maxtimer) {
-            gc.getGame().setState(gc, 2);
             Compte cpt = new Compte(convertToIntArray(generatedList));
 
             // Liste de choix de plaques
@@ -146,6 +147,19 @@ public class DesChiffresNotSim extends State {
             System.out.println(
                     String.format("Solution [%s]", (solution.best.value == solution.tirage ? "Exact" : "Approché")));
             System.out.print(solution.best.text);
+
+            if (solution.best.value == solution.tirage) {
+                gc.getGame().cache.scores.get(gc.getGame().cache.currentPlayer - 1).addScore(10);
+                gc.getGame().cache.bestPlayerInTheRoundId = gc.getGame().cache.currentPlayer;
+                gc.getGame().cache.bestPlayerInTheRoundValue = 0;
+                gc.getGame().setState(gc, 2);
+            } else {
+                if (Math.abs(solution.best.value - goalnumber) > gc.getGame().cache.bestPlayerInTheRoundValue) {
+                    gc.getGame().cache.bestPlayerInTheRoundId = gc.getGame().cache.currentPlayer;
+                    gc.getGame().cache.bestPlayerInTheRoundValue = Math.abs(solution.best.value - goalnumber);
+                }
+                gc.getGame().setState(gc, 2);
+            }
         }
 
         if (pauseInputTimer > 0) {
@@ -296,7 +310,7 @@ public class DesChiffresNotSim extends State {
                     return null;
                 }
             }, CurrentX, 900, cardWidth * card.length + gap, 150);
-            
+
             CurrentX += cardWidth * card.length + gap;
         }
 
