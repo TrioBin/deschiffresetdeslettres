@@ -1,0 +1,1 @@
+Run node /generateImages/index.js before running it the first time
