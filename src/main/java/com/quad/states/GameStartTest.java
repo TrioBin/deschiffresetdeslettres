@@ -52,7 +52,7 @@ public class GameStartTest extends State {
 			}
 
 			if (gc.getGame().cache.currentRound == 1) {
-				gc.getGame().setState(gc, 3);
+				gc.getGame().setState(gc, 5);
 			}
 		}
 	}

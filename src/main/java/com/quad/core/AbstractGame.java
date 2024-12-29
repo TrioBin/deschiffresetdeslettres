@@ -4,6 +4,7 @@ import com.quad.core.components.State;
 import com.quad.states.CinematicStart;
 import com.quad.states.DesChiffresNotSim;
 import com.quad.states.DesChiffresSim;
+import com.quad.states.DesLettresNotSim;
 import com.quad.states.GameStartTest;
 import com.quad.states.MenuState;
 
@@ -26,7 +27,7 @@ public class AbstractGame{
 	private boolean paused;
 	
 	//states
-	public static final int NUMSTATES = 5;
+	public static final int NUMSTATES = 6;
 
 	public CacheStorage cache = new CacheStorage();
 	
@@ -45,6 +46,7 @@ public class AbstractGame{
 		if(state == 2) states[2] = new GameStartTest();
 		if(state == 3) states[3] = new DesChiffresNotSim();
 		if(state == 4) states[4] = new DesChiffresSim();
+		if(state == 5) states[5] = new DesLettresNotSim();
 	}
 	
 	private void unloadState(int state) {
