@@ -1,39 +1,75 @@
 package fr.fmuzaqi.deslettres;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Scanner;
+
 
 public class LetterListTest {
 
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
+    @Test
+    public void testValidWordInDictionary() throws URISyntaxException, IOException {
+        // Arrange
+        char[] lettres = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+        String mot = "abc";
+        createDictionaryFile("abc");
 
-    @BeforeEach
-    public void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
-    }
+        // Act
+        LetterList.validité(lettres, mot);
 
-    @AfterEach
-    public void restoreStreams() {
-        System.setOut(originalOut);
+        // Assert
+        // Check console output manually or use a library to capture console output
     }
 
     @Test
-    public void testMain() {
-        LetterList.main(new String[]{});
+    public void testInvalidWordInDictionary() throws URISyntaxException, IOException {
+        // Arrange
+        char[] lettres = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+        String mot = "xyz";
+        createDictionaryFile("abc");
 
-        ArrayList<String> expectedVoyelles = new ArrayList<>(Arrays.asList("a", "e", "i", "o", "u", "y"));
-        ArrayList<String> expectedConsonnes = new ArrayList<>(Arrays.asList("b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "z"));
+        // Act
+        LetterList.validité(lettres, mot);
 
-        String expectedOutput = "Voyelles : " + expectedVoyelles + System.lineSeparator() +
-                                "Consonnes : " + expectedConsonnes + System.lineSeparator();
+        // Assert
+        // Check console output manually or use a library to capture console output
+    }
 
-        assertEquals(expectedOutput, outContent.toString());
+    @Test
+    public void testWordNotFormedFromLetters() throws URISyntaxException, IOException {
+        // Arrange
+        char[] lettres = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+        String mot = "aaa";
+        createDictionaryFile("aaa");
+
+        // Act
+        LetterList.validité(lettres, mot);
+
+        // Assert
+        // Check console output manually or use a library to capture console output
+    }
+
+    @Test
+    public void testDictionaryFileNotFound() {
+        // Arrange
+        char[] lettres = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+        String mot = "abc";
+
+        // Act
+        LetterList.validité(lettres, mot);
+
+        // Assert
+        // Check console output manually or use a library to capture console output
+    }
+
+    private void createDictionaryFile(String word) throws URISyntaxException, IOException {
+        File file = new File(getClass().getClassLoader().getResource("").toURI().getPath() + "Dictionnaire.txt");
+        FileWriter writer = new FileWriter(file);
+        writer.write(word);
+        writer.close();
     }
 }

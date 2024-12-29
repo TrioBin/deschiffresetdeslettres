@@ -21,7 +21,7 @@ import com.quad.states.MenuState;
 public class AbstractGame{
 	
 	private State[] states;
-	private int currentState = 2;
+	private int currentState = 0;
 	
 	//Pause
 	private boolean paused;

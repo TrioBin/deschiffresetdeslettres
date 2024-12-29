@@ -33,7 +33,7 @@ public class Renderer
 	int[] pixels;
 	int[] lightMap;
 	private ShadowType[] shadowMap;
-	private Font font = Font.STANDARD;
+	private Font font = Font.Arial_normal_50;
 	private float ambientLight = Pixel.getColor(1, 0.1f, 0.1f, 0.1f);
 	private int clearColor = 0x00ffffff;
 
@@ -91,8 +91,6 @@ public class Renderer
 
 	public void drawString(String text, int color, int offX, int offY)
 	{
-		text = text.toUpperCase();
-
 		int offset = 0;
 		for (int i = 0; i < text.length(); i++)
 		{

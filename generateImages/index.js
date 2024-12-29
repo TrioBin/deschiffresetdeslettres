@@ -196,6 +196,8 @@ const unicodelist = [
     "~"
 ]
 
+console.log(unicodelist.length);
+
 heightList = [
     10,
     20,
@@ -223,6 +225,10 @@ fontNameList = [
     "Verdana"
 ]
 
+decalage = {
+    j: 2,
+}
+
 fontNameList.forEach(name => {
     fontTypeList.forEach(type => {
         heightList.forEach(height => {
@@ -234,10 +240,13 @@ fontNameList.forEach(name => {
             unicontext.font = `${type} ${height}px '${name}'`;
             xoffset = 0;
             unicodelist.forEach((lettre, index) => {
-                unicontext.fillStyle = "#fff";
-                unicontext.fillText(lettre, xoffset, height);
                 unicontext.fillStyle = "#00f";
                 unicontext.fillRect(xoffset, 0, 1, 1);
+                if (decalage[lettre]) {
+                    xoffset += decalage[lettre];
+                }
+                unicontext.fillStyle = "#fff";
+                unicontext.fillText(lettre, xoffset, height);
                 xoffset += Math.ceil(unicontext.measureText(lettre).width) + 1;
                 unicontext.fillStyle = "#ff0";
                 unicontext.fillRect(xoffset - 1, 0, 1, 1);

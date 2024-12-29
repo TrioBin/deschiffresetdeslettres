@@ -7,9 +7,13 @@ import com.quad.core.fx.Image;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-public class DraggableImage {
+public class DraggableImage implements Comparable<DraggableImage> {
     Image image;
-    int x, y, width, height;
+    public int x;
+    public int y;
+    public String data;
+    int width;
+    int height;
     boolean isDragging = false;
     GameContainer gc;
     Renderer r;
@@ -19,13 +23,14 @@ public class DraggableImage {
     public float CoeffWidth;
     public float CoeffHeight;
 
-    public DraggableImage(Image image, int x, int y, int width, int height, GameContainer gc) {
+    public DraggableImage(Image image, String data, int x, int y, int width, int height, GameContainer gc) {
         this.image = image;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.gc = gc;
+        this.data = data;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.CoeffWidth = (float) (screenSize.getWidth() / gc.getWidth());
@@ -65,5 +70,13 @@ public class DraggableImage {
 
     public void render(Renderer r) {
         r.drawImage(image, x, y, width, height);
+    }
+
+    @Override
+    public int compareTo(DraggableImage emp) {
+    //trions les employés selon leur age dans l'ordre croiddant
+    //retroune un entier négative, zéro ou positive si l'age 
+    //de cet employé est moins que, égale à ou supérieur à l'objet comparé avec
+    return (this.x - emp.x);
     }
 }

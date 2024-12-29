@@ -1,6 +1,7 @@
 package com.quad.states;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.Callable;
 
 import com.quad.core.GameContainer;
@@ -23,6 +24,7 @@ public class DesLettresNotSim extends State {
     private Image bgImage;
     private Image bin;
     private Image binMask;
+    private int binHeight = 300;
 
     private ButtonManager buttonManager;
 
@@ -37,12 +39,14 @@ public class DesLettresNotSim extends State {
         LetterList.tirages(lettres_finales);
 
         for (int i = 0; i < lettres_finales.length; i++) {
-            images[i] = new DraggableImage(new Image("/images/chiffrescard/" + lettres_finales[i] + ".png"),
+            images[i] = new DraggableImage(new Image("/images/chiffrescard/" + lettres_finales[i] + ".png"), lettres_finales[i] + "",
                     100 + i * 150, 100, 100, 150, gc);
         }
 
         bin = new Image("/images/corbeille.png");
         binMask = new Image("/images/corbeillemask.png");
+
+        maxtimer = 45;
     }
 
     @Override
@@ -67,6 +71,21 @@ public class DesLettresNotSim extends State {
         if (buttonData != null) {
 
         }
+
+        if (timer >= maxtimer) {
+            gc.setPaused(true);
+            ArrayList<DraggableImage> activeImage = new ArrayList<DraggableImage>();
+            for (int i = 0; i < images.length; i++) {
+                if (images[i].x > 0 && images[i].x < 1920 && images[i].y > 0
+                        && images[i].y < 1080 - binHeight) {
+                    activeImage.add(images[i]);
+                }
+            }
+            Collections.sort(activeImage);
+            for (int i = 0; i < activeImage.size(); i++) {
+                System.out.println(activeImage.get(i).data);
+            }
+        }
     }
 
     @Override
@@ -74,16 +93,16 @@ public class DesLettresNotSim extends State {
         // Render state
         r.drawImage(bgImage, 0, 0, 1920, 1080);
 
-        int binHeight = 300;
-
         r.drawFillRect(0, 1080 - binHeight, 1920, binHeight, 0x000000);
 
-        r.setFont(Font.SANSSERIF50);
-        r.drawString("", 0xffffff, 1920 / 2 - 200, 1080 - binHeight + 50);
+        r.setFont(Font.Verdana_normal_50);
+        r.drawString("Corbeille", 0xffffff, 50, 1080 - binHeight + 50);
 
         for (int i = 0; i < lettres_finales.length; i++) {
             images[i].render(r);
         }
+
+        r.drawFillRect(0, 0, Math.round(1920 * timer / maxtimer), 50, 0x000fff);
     }
 
     @Override

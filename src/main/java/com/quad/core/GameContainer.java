@@ -12,6 +12,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import com.quad.core.components.Physics;
+import com.quad.core.fx.Font;
 import com.quad.core.fx.SoundClip;
 
 public class GameContainer implements Runnable {
@@ -30,7 +31,7 @@ public class GameContainer implements Runnable {
 	private double frameCap = 1.0 / Settings.FPS;
 	private boolean isRunning = false;
 
-	private boolean lockFrameRate = false;
+	private boolean lockFrameRate = true;
 	private boolean lightEnable = false;
 	private boolean dynamicLights = false;
 	private boolean clearScreen = false;
@@ -119,8 +120,10 @@ public class GameContainer implements Runnable {
 					renderer.flushMaps();
 				}
 				renderer.setTranslate(false);
-				if (debug)
+				if (debug) {
+					renderer.setFont(Font.Arial_normal_20);
 					renderer.drawString("FPS-" + fps, 0xffffffff, 0, 0);
+				}
 				renderer.setTranslate(true);
 
 				window.update();
@@ -257,6 +260,14 @@ public class GameContainer implements Runnable {
 			SoundClip.play(key);
 		} else {
 			System.out.println("Sound not loaded");
+		}
+	}
+
+	public void setPaused(boolean paused) {
+		if (paused) {
+			stop();
+		} else {
+			start();
 		}
 	}
 }
