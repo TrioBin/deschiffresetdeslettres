@@ -70,7 +70,6 @@ public class LetterList {
         int length, i, k = 0;
         String MOT;
         char[] mot_formé = new char[10]; // tableau qui va contenir les lettres du mot saisi par l'utilisateur
-        System.out.println("Saisir le mot le plus long possible à partir des lettres tirées");
         length = mot.length(); // On récupère la longueur du mot saisi par l'utilisateur
         MOT = mot; // On stocke le mot saisi par l'utilisateur dans la variable MOT
         for (i = 0; i < length; i++) {
@@ -108,19 +107,11 @@ public class LetterList {
                                                                     // formé à partir des lettres tirées
                     System.out.println("Le mot " + MOT + " est bien présent dans le dictionnaire");
                     System.out.println("Félicitations, vous avez formé un mot de " + length + " lettres valide");
-                } else if (ligne.equals(MOT.toLowerCase()) && (k != 10)) {
-                    System.out.println("Le mot " + MOT
-                            + " est bien présent dans le dictionnaire mais il n'est pas formé à partir des lettres tirées");
-                } else if (!ligne.equals(MOT.toLowerCase()) && (k == 10)) {
-                    System.out.println("Le mot " + MOT
-                            + " n'est pas présent dans le dictionnaire mais il est bien formé à partir des lettres tirées");
-                } else if (!ligne.equals(MOT.toLowerCase()) && (k != 10)) {
-                    System.out.println("Le mot " + MOT
-                            + " n'est pas présent dans le dictionnaire et il n'est pas formé à partir des lettres tirées");
                 }
-                sc.close(); // On ferme le scanner
             }
+            sc.close(); // On ferme le scanner
         } catch (Exception e) {
+            System.err.println(e);
             System.out.println("Erreur le dictionnaire n'a pas été trouvé");
         }
     }

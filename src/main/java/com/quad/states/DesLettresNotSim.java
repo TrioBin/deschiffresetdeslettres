@@ -73,7 +73,7 @@ public class DesLettresNotSim extends State {
         }
 
         if (timer >= maxtimer) {
-            gc.setPaused(true);
+            gc.getGame().setState(gc, 2);
             ArrayList<DraggableImage> activeImage = new ArrayList<DraggableImage>();
             for (int i = 0; i < images.length; i++) {
                 if (images[i].x > 0 && images[i].x < 1920 && images[i].y > 0
@@ -82,9 +82,11 @@ public class DesLettresNotSim extends State {
                 }
             }
             Collections.sort(activeImage);
+            String word = "";
             for (int i = 0; i < activeImage.size(); i++) {
-                System.out.println(activeImage.get(i).data);
+                word += activeImage.get(i).data;
             }
+            LetterList.validité(lettres_finales, word);
         }
     }
 
