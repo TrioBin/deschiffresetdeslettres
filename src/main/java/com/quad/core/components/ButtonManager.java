@@ -30,7 +30,7 @@ public class ButtonManager {
         this.input = input;
     }
 
-    public void testButtons() {
+    public JSONObject testButtons() {
         if (input.isButton(1)) {
             // pour chaque bouton
             for (Object key : buttons.keySet()) {
@@ -43,10 +43,11 @@ public class ButtonManager {
                 if (input.getMouseX() > x * CoeffWidth && input.getMouseX() < (x + width) * CoeffWidth
                         && input.getMouseY() > y * CoeffHeight
                         && input.getMouseY() < (y + height) * CoeffHeight) {
-                    button.click();
+                    return button.click();
                 }
             }
         }
+        return null;
     }
 
     public void addButton(String name, Callable onClick, int x, int y, int width, int height) {

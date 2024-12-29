@@ -46,37 +46,54 @@ const list = [
     "7",
     "8",
     "9",
-    "0",
-    "10",
-    "25",
-    "50",
-    "75",
-    "100",
-    "+",
-    "-",
-    "*",
-    "/",
+    "0"
+]
+
+complexletter = [
+    {
+        "name": "moins",
+        "value": "-"
+    },
+    {
+        "name": "plus",
+        "value": "+"
+    },
+    {
+        "name": "div",
+        "value": "/"
+    },
+    {
+        "name": "mult",
+        "value": "*"
+    }
 ]
 
 list.forEach(lettre => {
     context.fillStyle = "#000fff";
     context.fillRect(0, 0, width, height);
 
-    if (lettre == "100") {
-        context.font = `bold ${textHeight * 0.75}px 'Arial'`;
-        context.textAlign = "center";
-        context.fillStyle = "#fff";
+    context.font = `bold ${textHeight}px 'Arial'`;
+    context.textAlign = "center";
+    context.fillStyle = "#fff";
 
-        context.fillText(lettre, width / 2, height / 2 + textHeight * 0.75 / 3);
-    } else {
-        context.font = `bold ${textHeight}px 'Arial'`;
-        context.textAlign = "center";
-        context.fillStyle = "#fff";
-
-        context.fillText(lettre, width / 2, height / 2 + textHeight / 3);
-    }
+    context.fillText(lettre, width / 2, height / 2 + textHeight / 3);
 
     // Write the image to file
     const buffer = canvas.toBuffer("image/png");
     fs.writeFileSync("../src/main/resources/images/chiffrescard/" + lettre + ".png", buffer);
+});
+
+complexletter.forEach(lettre => {
+    context.fillStyle = "#000fff";
+    context.fillRect(0, 0, width, height);
+
+    context.font = `bold ${textHeight}px 'Arial'`;
+    context.textAlign = "center";
+    context.fillStyle = "#fff";
+
+    context.fillText(lettre.value, width / 2, height / 2 + textHeight / 3);
+
+    // Write the image to file
+    const buffer = canvas.toBuffer("image/png");
+    fs.writeFileSync("../src/main/resources/images/chiffrescard/" + lettre.name + ".png", buffer);
 });

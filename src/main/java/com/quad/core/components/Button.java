@@ -3,6 +3,8 @@ package com.quad.core.components;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
 
+import org.json.simple.JSONObject;
+
 public class Button {
 
     private Callable onClick;
@@ -11,11 +13,12 @@ public class Button {
         this.onClick = onClick;
     }
 
-    public void click() {
+    public JSONObject click() {
         try {
-            onClick.call();
+            return (JSONObject) onClick.call();
         } catch (Exception e) {
             e.printStackTrace();
+            return new JSONObject(); // Return an empty JSONObject in case of an exception
         }
     }
 }

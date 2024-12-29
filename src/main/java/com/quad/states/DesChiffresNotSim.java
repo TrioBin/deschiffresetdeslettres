@@ -13,6 +13,7 @@ import com.quad.core.components.ButtonManager;
 import com.quad.core.components.State;
 import com.quad.core.fx.Image;
 
+import org.json.simple.JSONObject;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -24,8 +25,6 @@ import fr.crusche.deschiffres.Solution;
 
 public class DesChiffresNotSim extends State {
 
-    private int windowMouseX = 1535;
-    private int windowMouseY = 863;
     private int length;
     private ArrayList<Integer> generatedList;
     private ArrayList<Boolean> cardStatus = new ArrayList<Boolean>();
@@ -101,6 +100,62 @@ public class DesChiffresNotSim extends State {
         gc.playSound("jeu_chiffres");
 
         buttonManager = new ButtonManager(gc);
+
+        buttonManager.addButton("reset", new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                System.out.println("Reset clicked");
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("type", "Reset");
+                return jsonObject;
+            }
+        }, 1720, 50, 150, 50);
+
+        //for operators
+
+        buttonManager.addButton("plus", new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                System.out.println("Plus clicked");
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("type", "Operator");
+                jsonObject.put("operator", 1);
+                return jsonObject;
+            }
+        }, 610, 700, 100, 150);
+
+        buttonManager.addButton("moins", new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                System.out.println("Moins clicked");
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("type", "Operator");
+                jsonObject.put("operator", 2);
+                return jsonObject;
+            }
+        }, 810, 700, 100, 150);
+
+        buttonManager.addButton("mult", new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                System.out.println("Mult clicked");
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("type", "Operator");
+                jsonObject.put("operator", 3);
+                return jsonObject;
+            }
+        }, 1010, 700, 100, 150);
+
+        buttonManager.addButton("div", new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                System.out.println("Div clicked");
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("type", "Operator");
+                jsonObject.put("operator", 4);
+                return jsonObject;
+            }
+        }, 1210, 700, 100, 150);
     }
 
     @Override
@@ -226,50 +281,38 @@ public class DesChiffresNotSim extends State {
 
         buttonManager.linkInput(input);
 
-        buttonManager.testButtons();
+        JSONObject buttonData = buttonManager.testButtons();
 
-        if (input.isButton(1))
-
-        {
-            if (opSelected != 0 || cardUsed == 0) {
-                // for (int i = 0; i < length; i++) {
-                // if (input.mouseX > (XOffset + (i * (cardWidth + gap))) * windowMouseX / 1920
-                // && input.mouseX < ((XOffset + (i * (cardWidth + gap))) + cardWidth) *
-                // windowMouseX / 1920
-                // && input.mouseY > 900 * windowMouseY / 1080
-                // && input.mouseY < 1050 * windowMouseY / 1080 && cardStatus.get(i)) {
-                // cardStatus.set(i, false);
-                // if (cardUsed != 0) {
-                // calcul = lastCalulation.replace("b", "(" + calcul + ")").replace("c",
-                // "(" + generatedList.get(i).toString() + ")");
-                // } else {
-                // calcul += generatedList.get(i);
-                // }
-                // cardUsed++;
-                // opSelected = 0;
-                // calculationOfResult();
-                // }
-                // }
-            }
-
-            if (input.mouseX > 610 * windowMouseX / 1920 && input.mouseX < 710 * windowMouseX / 1920
-                    && input.mouseY > 700 * windowMouseY / 1080 && input.mouseY < 850 * windowMouseY / 1080) {
-                lastCalulation = "b+c";
-                opSelected = 1;
-            } else if (input.mouseX > 810 * windowMouseX / 1920 && input.mouseX < 910 * windowMouseX / 1920
-                    && input.mouseY > 700 * windowMouseY / 1080 && input.mouseY < 850 * windowMouseY / 1080) {
-                lastCalulation = "b-c";
-                opSelected = 2;
-            } else if (input.mouseX > 1010 * windowMouseX / 1920 && input.mouseX < 1110 * windowMouseX / 1920
-                    && input.mouseY > 700 * windowMouseY / 1080 && input.mouseY < 850 * windowMouseY / 1080) {
-                lastCalulation = "c*b";
-                opSelected = 3;
-            } else if (input.mouseX > 1210 * windowMouseX / 1920 && input.mouseX < 1310 * windowMouseX / 1920
-                    && input.mouseY > 700 * windowMouseY / 1080 && input.mouseY < 850 * windowMouseY / 1080) {
-                lastCalulation = "Math.floor(b/c)";
-                opSelected = 4;
-            } else if (input.mouseX > 1720 * windowMouseX / 1920 && input.mouseX < 1870 * windowMouseX / 1920
-                    && input.mouseY > 50 * windowMouseY / 1080 && input.mouseY < 100 * windowMouseY / 1080) {
+        if (buttonData != null) {
+            if (buttonData.get("type").equals("NumberCard") && (opSelected != 0 || cardUsed == 0)) {
+                int cardIndex = (int) buttonData.get("cardIndex");
+                cardStatus.set(cardIndex, false);
+                if (cardUsed != 0) {
+                    calcul = lastCalulation.replace("b", "(" + calcul + ")").replace("c",
+                            "(" + generatedList.get(cardIndex).toString() + ")");
+                } else {
+                    calcul += generatedList.get(cardIndex);
+                }
+                cardUsed++;
+                opSelected = 0;
+                System.out.println("Calcul: " + calcul);
+                calculationOfResult();
+            } else if (buttonData.get("type").equals("Operator")) {
+                int operator = (int) buttonData.get("operator");
+                if (operator == 1) {
+                    lastCalulation = "b+c";
+                    opSelected = 1;
+                } else if (operator == 2) {
+                    lastCalulation = "b-c";
+                    opSelected = 2;
+                } else if (operator == 3) {
+                    lastCalulation = "c*b";
+                    opSelected = 3;
+                } else if (operator == 4) {
+                    lastCalulation = "Math.floor(b/c)";
+                    opSelected = 4;
+                }
+            } else if (buttonData.get("type").equals("Reset")) {
                 reset();
             }
         }
@@ -313,11 +356,14 @@ public class DesChiffresNotSim extends State {
                         CurrentX + i * cardWidth, 900, cardWidth, 150);
             }
             final int cardIndex = index;
-            buttonManager.addButton("card" + Integer.toString(cardIndex + 1), new Callable<Void>() {
+            buttonManager.addButton("card" + Integer.toString(cardIndex + 1), new Callable<JSONObject>() {
                 @Override
-                public Void call() throws Exception {
+                public JSONObject call() throws Exception {
                     System.out.println("Card " + Integer.toString(cardIndex + 1) + " clicked");
-                    return null;
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("type", "NumberCard");
+                    jsonObject.put("cardIndex", cardIndex);
+                    return jsonObject;
                 }
             }, CurrentX, 900, cardWidth * card.length + gap, 150);
 
