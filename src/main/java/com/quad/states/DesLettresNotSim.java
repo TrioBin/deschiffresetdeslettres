@@ -8,6 +8,7 @@ import com.quad.core.Input;
 import com.quad.core.Renderer;
 import com.quad.core.components.ButtonManager;
 import com.quad.core.components.State;
+import com.quad.core.fx.Font;
 import com.quad.core.fx.Image;
 
 import fr.crusche.quadextension.DraggableImage;
@@ -20,6 +21,8 @@ public class DesLettresNotSim extends State {
     private float timer = 0;
 
     private Image bgImage;
+    private Image bin;
+    private Image binMask;
 
     private ButtonManager buttonManager;
 
@@ -34,17 +37,21 @@ public class DesLettresNotSim extends State {
         LetterList.tirages(lettres_finales);
 
         for (int i = 0; i < lettres_finales.length; i++) {
-            images[i] = new DraggableImage(new Image("/images/chiffrescard/" + lettres_finales[i] + ".png"), 100 + i * 150, 100, 100, 150, gc);
+            images[i] = new DraggableImage(new Image("/images/chiffrescard/" + lettres_finales[i] + ".png"),
+                    100 + i * 150, 100, 100, 150, gc);
         }
+
+        bin = new Image("/images/corbeille.png");
+        binMask = new Image("/images/corbeillemask.png");
     }
 
     @Override
     public void update(GameContainer gc, float dt) {
         timer += dt;
-        
+
         // Update state
         Input input = gc.getInput();
-        
+
         if (input.isKeyPressed(27)) {
             gc.stop();
         }
@@ -66,7 +73,14 @@ public class DesLettresNotSim extends State {
     public void render(GameContainer gc, Renderer r, float dt) {
         // Render state
         r.drawImage(bgImage, 0, 0, 1920, 1080);
-        
+
+        int binHeight = 300;
+
+        r.drawFillRect(0, 1080 - binHeight, 1920, binHeight, 0x000000);
+
+        r.setFont(Font.SANSSERIF50);
+        r.drawString("", 0xffffff, 1920 / 2 - 200, 1080 - binHeight + 50);
+
         for (int i = 0; i < lettres_finales.length; i++) {
             images[i].render(r);
         }

@@ -2,9 +2,14 @@ package com.quad.core.fx;
 
 public enum Font
 {
-	STANDARD("/fonts/standard.png"),
-	RPG("/fonts/rpg.png"),
-	STANDARD2("/fonts/standard2.png");
+	ARIAL("Arial"),
+	COURIERNEW("Courier New"),
+	STANDARD2("/fonts/standard2.png"),
+	SANSSERIF50("/fonts/sansserif50.png"),
+
+	NORMAL("normal"),
+	BOLD("bold"),
+	ITALIC("italic");
 	
 	public final int NUM_UNICODES = 59;
 	public int[] offsets = new int[NUM_UNICODES];

@@ -98,12 +98,18 @@ public class Renderer
 		{
 			int unicode = text.codePointAt(i) - 32;
 
+			ArrayList blockedColor = new ArrayList<>();
+			blockedColor.add(0xffffff00);
+			blockedColor.add(0xff0000ff);
+			blockedColor.add(0xffff00ff);
+
 			for (int x = 0; x < font.widths[unicode]; x++)
 			{
 				for (int y = 1; y < font.image.height; y++)
 				{
-					if (font.image.pixels[(x + font.offsets[unicode]) + y * font.image.width] == 0xffffffff)
-						setPixel(x + offX + offset, y + offY - 1, color, ShadowType.NONE);
+					if (!blockedColor.contains(font.image.pixels[(x + font.offsets[unicode]) + y * font.image.width])) {
+						setPixel(x + offX + offset, y + offY - 1, (int)(colortoBWfloat(font.image.pixels[(x + font.offsets[unicode]) + y * font.image.width]) * color), ShadowType.NONE);
+					}
 				}
 			}
 
@@ -399,5 +405,11 @@ public class Renderer
 	public void setTranslate(boolean translate)
 	{
 		this.translate = translate;
+	}
+
+	public float colortoBWfloat(int color)
+	{
+		Color c = new Color(color);
+		return (c.getRed() + c.getGreen() + c.getBlue()) / 3;
 	}
 }
