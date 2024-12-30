@@ -13,6 +13,7 @@ import com.quad.core.fx.Font;
 import com.quad.core.fx.Image;
 
 import fr.crusche.quadextension.DraggableImage;
+import fr.crusche.quadextension.DrawScoreTable;
 import fr.fmuzaqi.deslettres.LetterList;
 
 import org.json.simple.JSONObject;
@@ -97,11 +98,9 @@ public class DesLettresNotSim extends State {
     @Override
     public void render(GameContainer gc, Renderer r, float dt) {
         // Render state
-        
         r.setFont(new Font("Verdana", "normal", 50));
 
         r.drawImage(bgImage, 0, 0, 1920, 1080);
-        r.drawString("Joueur "+gc.getGame().cache.currentPlayer, 0xffffff, 50, 50);
 
         r.drawFillRect(0, 1080 - binHeight, 1920, binHeight, 0x000000);
 
@@ -112,6 +111,9 @@ public class DesLettresNotSim extends State {
         }
 
         r.drawFillRect(0, 0, Math.round(1920 * timer / maxtimer), 50, 0x000fff);
+
+        
+        DrawScoreTable.drawScoreTable(50, 50, 50, gc.getGame().cache, r);
     }
 
     @Override

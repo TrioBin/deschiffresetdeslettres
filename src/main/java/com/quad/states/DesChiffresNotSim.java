@@ -22,6 +22,7 @@ import fr.brisse.deschiffres.NumberList;
 import fr.crusche.deschiffres.Compte;
 import fr.crusche.deschiffres.Result;
 import fr.crusche.deschiffres.Solution;
+import fr.crusche.quadextension.DrawScoreTable;
 
 public class DesChiffresNotSim extends State {
 
@@ -49,7 +50,6 @@ public class DesChiffresNotSim extends State {
     private Image maskcardImage;
     private Image maskcardGoalImage;
     private Image maskcardSelectedImage;
-    private Image maskPlayerImage;
     private Image resetImage;
 
     private float pauseInputTimer = 0;
@@ -70,12 +70,10 @@ public class DesChiffresNotSim extends State {
     public void init(GameContainer gc) {
         bgImage = new Image("/cinematics/one/0250.png");
         // Initiate state
-        System.out.println("Des Chiffres State Loaded");
         NumberList numberList = new NumberList();
         length = gc.getGame().cache.NumberCardChiffres;
         maxtimer = gc.getGame().cache.chiffreTimer;
         goalnumber = (int) Math.round(Math.random() * 999) + 1;
-        System.out.println("Goal Number: " + goalnumber);
 
         for (int i = 0; i < String.valueOf(goalnumber).length(); i++) {
             goalImages.add(new Image("/images/chiffrescard/" + String.valueOf(goalnumber).charAt(i) + ".png"));
@@ -87,14 +85,10 @@ public class DesChiffresNotSim extends State {
             cardStatus.add(true);
         }
 
-        System.out.println("Generated List: " + generatedList);
-
         maskcardImage = new Image("/images/chiffrescard/maskcard.png");
         maskcardSelectedImage = new Image("/images/chiffrescard/maskcardselected.png");
         maskcardGoalImage = new Image("/images/chiffrescard/maskcardgoal.png");
         resetImage = new Image("/images/reset.png");
-
-        maskPlayerImage = new Image("/images/joueur" + String.valueOf(gc.getGame().cache.currentPlayer) + "mask.png");
 
         gc.loadSound("/sounds/rec1.wav", "jeu_chiffres");
         gc.playSound("jeu_chiffres");
@@ -204,11 +198,6 @@ public class DesChiffresNotSim extends State {
             // Start the recursive resolution
             solution = cpt.SolveTirage(solution);
 
-            // Output final result
-            System.out.println(
-                    String.format("Solution [%s]", (solution.best.value == solution.tirage ? "Exact" : "Approché")));
-            System.out.print(solution.best.text);
-
             if (solution.best.value == goalnumber) {
                 if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
                     int[] tempArray = Arrays.copyOf(gc.getGame().cache.bestPlayerInTheRoundId,
@@ -262,7 +251,6 @@ public class DesChiffresNotSim extends State {
                     }
                     cardUsed++;
                     opSelected = 0;
-                    System.out.println("Calcul: " + calcul);
                     calculationOfResult();
                 }
             }
@@ -302,7 +290,6 @@ public class DesChiffresNotSim extends State {
                 }
                 cardUsed++;
                 opSelected = 0;
-                System.out.println("Calcul: " + calcul);
                 calculationOfResult();
             } else if (buttonData.get("type").equals("Operator")) {
                 int operator = (int) buttonData.get("operator");
@@ -412,9 +399,9 @@ public class DesChiffresNotSim extends State {
 
         r.drawFillRect(0, 0, Math.round(1920 * timer / maxtimer), 50, 0x000fff);
 
-        r.drawTransparentImage(maskPlayerImage, maskPlayerImage, 0, 0, 150, 50);
-
         r.drawImage(resetImage, 1720, 50, 150, 50);
+
+        DrawScoreTable.drawScoreTable(50, 50, 50, gc.getGame().cache, r);
     }
 
     @Override
