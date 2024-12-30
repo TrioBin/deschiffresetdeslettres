@@ -21,6 +21,8 @@ public class CacheStorage {
     public int[] bestPlayerInTheRoundId = {};
     public int bestPlayerInTheRoundValue = -1;
 
+    public int[] roundList = { 1, 2, 1, 2, 1, 2, 1, 2 };
+
     public CacheStorage() {
     }
 

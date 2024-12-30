@@ -51,50 +51,19 @@ public class GameStartTest extends State {
 				gc.getGame().cache.currentRound += 1;
 			}
 
-			switch (gc.getGame().cache.currentRound) {
-				case 1:
-					gc.getGame().setState(gc, 3);
-					break;
-
-				case 2:
-					for (int i = 0; i < gc.getGame().cache.bestPlayerInTheRoundId.length; i++) {
-						if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
-							gc.getGame().cache.scores.get(gc.getGame().cache.bestPlayerInTheRoundId[i] - 1)
-									.addScore(10);
-						} else {
-							gc.getGame().cache.scores.get(gc.getGame().cache.bestPlayerInTheRoundId[i] - 1)
-									.addScore(7);
-						}
+			if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 1) {
+				gc.getGame().setState(gc, 3);
+			} else if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 2) {
+				for (int i = 0; i < gc.getGame().cache.bestPlayerInTheRoundId.length; i++) {
+					if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
+						gc.getGame().cache.scores.get(gc.getGame().cache.bestPlayerInTheRoundId[i] - 1)
+								.addScore(10);
+					} else {
+						gc.getGame().cache.scores.get(gc.getGame().cache.bestPlayerInTheRoundId[i] - 1)
+								.addScore(7);
 					}
-					gc.getGame().setState(gc, 5);
-					break;
-
-				case 3:
-					gc.getGame().setState(gc, 3);
-					break;
-
-				case 4:
-					gc.getGame().setState(gc, 5);
-					break;
-
-				case 5:
-					gc.getGame().setState(gc, 3);
-					break;
-
-				case 6:
-					gc.getGame().setState(gc, 5);
-					break;
-
-				case 7:
-					gc.getGame().setState(gc, 3);
-					break;
-
-				case 8:
-					gc.getGame().setState(gc, 5);
-					break;
-
-				default:
-					break;
+				}
+				gc.getGame().setState(gc, 5);
 			}
 		}
 	}
