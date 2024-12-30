@@ -66,7 +66,8 @@ public class LetterList {
         // }
     }
 
-    public static void validité(char[] lettres, String mot) {
+    public static boolean validité(char[] lettres, String mot) {
+        boolean validite = false;
         int length, i, k = 0;
         String MOT;
         char[] mot_formé = new char[10]; // tableau qui va contenir les lettres du mot saisi par l'utilisateur
@@ -105,8 +106,9 @@ public class LetterList {
                 if (ligne.equals(MOT.toLowerCase()) && (k == 10)) { // On vérifie si le mot saisi par l'utilisateur est
                                                                     // présent dans le fichier et si le mot est bien
                                                                     // formé à partir des lettres tirées
-                    System.out.println("Le mot " + MOT + " est bien présent dans le dictionnaire");
-                    System.out.println("Félicitations, vous avez formé un mot de " + length + " lettres valide");
+                    //System.out.println("Le mot " + MOT + " est bien présent dans le dictionnaire");
+                    //System.out.println("Félicitations, vous avez formé un mot de " + length + " lettres valide");
+                    validite = true;
                 }
             }
             sc.close(); // On ferme le scanner
@@ -114,6 +116,7 @@ public class LetterList {
             System.err.println(e);
             System.out.println("Erreur le dictionnaire n'a pas été trouvé");
         }
+        return validite;
     }
 
     private static File getFileFromResource(String fileName) throws URISyntaxException { // Méthode pour récupérer un

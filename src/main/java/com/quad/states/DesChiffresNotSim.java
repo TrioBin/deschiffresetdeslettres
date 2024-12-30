@@ -111,7 +111,7 @@ public class DesChiffresNotSim extends State {
             }
         }, 1720, 50, 150, 50);
 
-        //for operators
+        // for operators
 
         buttonManager.addButton("plus", new Callable<JSONObject>() {
             @Override
@@ -164,9 +164,12 @@ public class DesChiffresNotSim extends State {
 
         if (result == goalnumber) {
             if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
-                gc.getGame().cache.bestPlayerInTheRoundId[gc.getGame().cache.bestPlayerInTheRoundId.length] = gc.getGame().cache.currentPlayer;
+                int[] tempArray = Arrays.copyOf(gc.getGame().cache.bestPlayerInTheRoundId,
+                        gc.getGame().cache.bestPlayerInTheRoundId.length + 1);
+                tempArray[tempArray.length - 1] = gc.getGame().cache.currentPlayer;
+                gc.getGame().cache.bestPlayerInTheRoundId = tempArray;
             } else {
-                gc.getGame().cache.bestPlayerInTheRoundId = new int[]{gc.getGame().cache.currentPlayer};
+                gc.getGame().cache.bestPlayerInTheRoundId = new int[] { gc.getGame().cache.currentPlayer };
             }
             gc.getGame().cache.bestPlayerInTheRoundValue = 0;
             gc.getGame().setState(gc, 2);
@@ -208,18 +211,22 @@ public class DesChiffresNotSim extends State {
 
             if (solution.best.value == goalnumber) {
                 if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
-                    gc.getGame().cache.bestPlayerInTheRoundId[gc.getGame().cache.bestPlayerInTheRoundId.length] = gc.getGame().cache.currentPlayer;
+                    int[] tempArray = Arrays.copyOf(gc.getGame().cache.bestPlayerInTheRoundId,
+                            gc.getGame().cache.bestPlayerInTheRoundId.length + 1);
+                    tempArray[tempArray.length - 1] = gc.getGame().cache.currentPlayer;
+                    gc.getGame().cache.bestPlayerInTheRoundId = tempArray;
                 } else {
-                    gc.getGame().cache.bestPlayerInTheRoundId = new int[]{gc.getGame().cache.currentPlayer};
+                    gc.getGame().cache.bestPlayerInTheRoundId = new int[] { gc.getGame().cache.currentPlayer };
                 }
                 gc.getGame().cache.bestPlayerInTheRoundValue = 0;
                 gc.getGame().setState(gc, 2);
             } else {
                 if (Math.abs(solution.best.value - goalnumber) >= gc.getGame().cache.bestPlayerInTheRoundValue) {
                     if (gc.getGame().cache.bestPlayerInTheRoundValue == Math.abs(solution.best.value - goalnumber)) {
-                        gc.getGame().cache.bestPlayerInTheRoundId[gc.getGame().cache.bestPlayerInTheRoundId.length] = gc.getGame().cache.currentPlayer;
+                        gc.getGame().cache.bestPlayerInTheRoundId[gc.getGame().cache.bestPlayerInTheRoundId.length] = gc
+                                .getGame().cache.currentPlayer;
                     } else {
-                        gc.getGame().cache.bestPlayerInTheRoundId = new int[]{gc.getGame().cache.currentPlayer};
+                        gc.getGame().cache.bestPlayerInTheRoundId = new int[] { gc.getGame().cache.currentPlayer };
                     }
                     gc.getGame().cache.bestPlayerInTheRoundValue = Math.abs(solution.best.value - goalnumber);
                 }

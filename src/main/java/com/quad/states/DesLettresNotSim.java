@@ -46,7 +46,7 @@ public class DesLettresNotSim extends State {
         bin = new Image("/images/corbeille.png");
         binMask = new Image("/images/corbeillemask.png");
 
-        maxtimer = 45;
+        maxtimer = 30;
     }
 
     @Override
@@ -88,18 +88,23 @@ public class DesLettresNotSim extends State {
             for (int i = 0; i < activeImage.size(); i++) {
                 word += activeImage.get(i).data;
             }
-            LetterList.validité(lettres_finales, word);
+            if (LetterList.validité(lettres_finales, word)) {
+                gc.getGame().cache.scores.get(gc.getGame().cache.currentPlayer - 1).addScore(word.length());
+            }
         }
     }
 
     @Override
     public void render(GameContainer gc, Renderer r, float dt) {
         // Render state
+        
+        r.setFont(new Font("Verdana", "normal", 50));
+
         r.drawImage(bgImage, 0, 0, 1920, 1080);
+        r.drawString("Joueur "+gc.getGame().cache.currentPlayer, 0xffffff, 50, 50);
 
         r.drawFillRect(0, 1080 - binHeight, 1920, binHeight, 0x000000);
 
-        r.setFont(new Font("Verdana", "normal", 50));
         r.drawString("Corbeille", 0xffffff, 50, 1080 - binHeight + 50);
 
         for (int i = 0; i < lettres_finales.length; i++) {

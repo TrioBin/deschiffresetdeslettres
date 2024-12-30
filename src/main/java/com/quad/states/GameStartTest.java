@@ -48,11 +48,44 @@ public class GameStartTest extends State {
 
 			if (gc.getGame().cache.currentPlayer > gc.getGame().cache.playerNumber) {
 				gc.getGame().cache.currentPlayer = 1;
-				gc.getGame().cache.currentRound = 2;
+				gc.getGame().cache.currentRound += 1;
 			}
 
-			if (gc.getGame().cache.currentRound == 1) {
-				gc.getGame().setState(gc, 5);
+			switch (gc.getGame().cache.currentRound) {
+				case 1:
+					gc.getGame().setState(gc, 3);
+					break;
+
+				case 2:
+					gc.getGame().setState(gc, 5);
+					break;
+
+				case 3:
+					gc.getGame().setState(gc, 3);
+					break;
+
+				case 4:
+					gc.getGame().setState(gc, 5);
+					break;
+
+				case 5:
+					gc.getGame().setState(gc, 3);
+					break;
+
+				case 6:
+					gc.getGame().setState(gc, 5);
+					break;
+
+				case 7:
+					gc.getGame().setState(gc, 3);
+					break;
+
+				case 8:
+					gc.getGame().setState(gc, 5);
+					break;
+
+				default:
+					break;
 			}
 		}
 	}
