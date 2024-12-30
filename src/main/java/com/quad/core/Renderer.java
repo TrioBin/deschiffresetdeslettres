@@ -33,7 +33,7 @@ public class Renderer
 	int[] pixels;
 	int[] lightMap;
 	private ShadowType[] shadowMap;
-	private Font font = Font.Arial_normal_50;
+	private Font font = new Font("Arial", "normal", 20);
 	private float ambientLight = Pixel.getColor(1, 0.1f, 0.1f, 0.1f);
 	private int clearColor = 0x00ffffff;
 

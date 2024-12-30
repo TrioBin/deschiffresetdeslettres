@@ -53,14 +53,16 @@ public class DraggableImage implements Comparable<DraggableImage> {
         } else {
             isDragging = false;
         }
-    
     }
 
-    public void update() {
+    public boolean update() {
         testIfOnImage();
         if (isDragging) {
             x = (int) (gc.getInput().getMouseX() / CoeffWidth) - startdragx;
             y = (int) (gc.getInput().getMouseY() / CoeffHeight) - startdragy;
+            return true;
+        } else {
+            return false;
         }
     }
 

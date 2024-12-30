@@ -61,7 +61,9 @@ public class DesLettresNotSim extends State {
         }
 
         for (int i = 0; i < lettres_finales.length; i++) {
-            images[i].update();
+            if (images[i].update()) {
+                break;
+            }
         }
 
         buttonManager.linkInput(input);
@@ -97,7 +99,7 @@ public class DesLettresNotSim extends State {
 
         r.drawFillRect(0, 1080 - binHeight, 1920, binHeight, 0x000000);
 
-        r.setFont(Font.Verdana_normal_50);
+        r.setFont(new Font("Verdana", "normal", 50));
         r.drawString("Corbeille", 0xffffff, 50, 1080 - binHeight + 50);
 
         for (int i = 0; i < lettres_finales.length; i++) {

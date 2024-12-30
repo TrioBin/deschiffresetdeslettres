@@ -121,7 +121,7 @@ public class GameContainer implements Runnable {
 				}
 				renderer.setTranslate(false);
 				if (debug) {
-					renderer.setFont(Font.Arial_normal_20);
+					renderer.setFont(new Font("Arial", "bold", 20));
 					renderer.drawString("FPS-" + fps, 0xffffffff, 0, 0);
 				}
 				renderer.setTranslate(true);
