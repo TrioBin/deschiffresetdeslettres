@@ -3,3 +3,4 @@ target
 .vscode
 generateImages/node_modules
 src/main/resources/fonts/*
+*.class
