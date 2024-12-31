@@ -51,7 +51,9 @@ public class GameStartTest extends State {
 				gc.getGame().cache.currentRound += 1;
 			}
 
-			if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 1) {
+			if (gc.getGame().cache.currentRound > gc.getGame().cache.roundList.length) {
+				gc.getGame().setState(gc, 7);
+			} else if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 1) {
 				gc.getGame().setState(gc, 3);
 			} else if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 2) {
 				for (int i = 0; i < gc.getGame().cache.bestPlayerInTheRoundId.length; i++) {

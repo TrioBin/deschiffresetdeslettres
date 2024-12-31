@@ -10,7 +10,7 @@ public class CacheStorage {
     public ArrayList<Cinematic> cinematics = new ArrayList<Cinematic>();
 
     public int NumberCardChiffres = 6;
-    public int playerNumber = 2;
+    public int playerNumber = 1;
     public float chiffreTimer = 45;
     public boolean isGameSimultaneous = false;
 
@@ -21,7 +21,8 @@ public class CacheStorage {
     public int[] bestPlayerInTheRoundId = {};
     public int bestPlayerInTheRoundValue = -1;
 
-    public int[] roundList = { 1, 2, 1, 2, 1, 2, 1, 2 };
+    //public int[] roundList = { 1, 2, 1, 2, 1, 2, 1, 2 };
+    public int[] roundList = { 1, 2 };
 
     public CacheStorage() {
     }

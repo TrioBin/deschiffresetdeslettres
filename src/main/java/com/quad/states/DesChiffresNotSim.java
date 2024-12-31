@@ -79,7 +79,7 @@ public class DesChiffresNotSim extends State {
         }
 
         generatedList = numberList.getGenerateList(length);
-        currentList = generatedList;
+        currentList = new ArrayList<Integer>(generatedList);
 
         for (int i = 0; i < length; i++) {
             cardStatus.add(true);
@@ -97,12 +97,20 @@ public class DesChiffresNotSim extends State {
         buttonManager.addButton("reset", new Callable<JSONObject>() {
             @Override
             public JSONObject call() throws Exception {
-                System.out.println("Reset clicked");
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("type", "Reset");
                 return jsonObject;
             }
         }, 1720, 50, 150, 50);
+
+        buttonManager.addButton("annul", new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("type", "Annul");
+                return jsonObject;
+            }
+        }, 1720, 150, 150, 50);
 
         // for operators
 
@@ -284,7 +292,11 @@ public class DesChiffresNotSim extends State {
                     } else {
                         currentList.remove((int) buttonData.get("cardIndex"));
                     }
-                    currentList.add(result);
+                    if (currentList.size() == 0) {
+                        reset(result);
+                    } else {
+                        currentList.add(result);
+                    }
 
                     lastNumberCardSelected = -1;
                     opSelected = 0;
@@ -295,6 +307,11 @@ public class DesChiffresNotSim extends State {
                 opSelected = (int) buttonData.get("operator");
             } else if (buttonData.get("type").equals("Reset")) {
                 reset();
+            } else if (buttonData.get("type").equals("Annul")) {
+                if (lastNumberCardSelected != -1) {
+                    lastNumberCardSelected = -1;
+                    opSelected = 0;
+                }
             }
         }
     }
@@ -378,6 +395,7 @@ public class DesChiffresNotSim extends State {
         r.drawFillRect(0, 0, Math.round(1920 * timer / maxtimer), 50, 0x000fff);
 
         r.drawImage(resetImage, 1720, 50, 150, 50);
+        r.drawImage(resetImage, 1720, 150, 150, 50);
 
         DrawScoreTable.drawScoreTable(50, 50, 50, gc.getGame().cache, r);
     }
@@ -388,13 +406,16 @@ public class DesChiffresNotSim extends State {
     }
 
     public void reset() {
-        cardStatus.clear();
-        for (int i = 0; i < length; i++) {
-            cardStatus.add(true);
-        }
         opSelected = 0;
-        result = 0;
-        currentList = generatedList;
+        currentList = new ArrayList<Integer>(generatedList);
+    }
+
+    public void reset(int result) {
+        opSelected = 0;
+        if (Math.abs(result - goalnumber) < Math.abs(bestScore - goalnumber)) {
+            bestScore = result;
+        }
+        currentList = new ArrayList<Integer>(generatedList);
     }
 
     // method to convert ArrayList<Integer> to int[]

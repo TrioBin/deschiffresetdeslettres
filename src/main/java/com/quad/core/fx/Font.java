@@ -35,4 +35,16 @@ public class Font
 			}
 		}
 	}
+
+	public int getWidthOfString(String string)
+	{
+		int totalWidth = 0;
+		for(int i = 0; i < string.length(); i++)
+		{
+			int unicode = string.codePointAt(i) - 32;
+			totalWidth += widths[unicode];
+		}
+
+		return totalWidth;
+	}
 }
