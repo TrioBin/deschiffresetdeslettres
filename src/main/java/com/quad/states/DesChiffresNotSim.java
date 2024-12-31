@@ -28,14 +28,13 @@ public class DesChiffresNotSim extends State {
 
     private int length;
     private ArrayList<Integer> generatedList;
+    private ArrayList<Integer> currentList;
     private ArrayList<Boolean> cardStatus = new ArrayList<Boolean>();
     private int cardWidth = 100;
     private int gap;
     private int XOffset;
 
-    private String calcul = "";
-    private String lastCalulation = "";
-    private int cardUsed = 0;
+    private int lastNumberCardSelected = -1;
     private int opSelected = 0;
 
     private int bestScore = 0;
@@ -49,10 +48,10 @@ public class DesChiffresNotSim extends State {
     private Image bgImage;
     private Image maskcardImage;
     private Image maskcardGoalImage;
-    private Image maskcardSelectedImage;
     private Image resetImage;
 
     private float pauseInputTimer = 0;
+    private float buttonTimeOut = 0;
 
     private ArrayList<Image> goalImages = new ArrayList<Image>();
 
@@ -80,13 +79,13 @@ public class DesChiffresNotSim extends State {
         }
 
         generatedList = numberList.getGenerateList(length);
+        currentList = generatedList;
 
         for (int i = 0; i < length; i++) {
             cardStatus.add(true);
         }
 
         maskcardImage = new Image("/images/chiffrescard/maskcard.png");
-        maskcardSelectedImage = new Image("/images/chiffrescard/maskcardselected.png");
         maskcardGoalImage = new Image("/images/chiffrescard/maskcardgoal.png");
         resetImage = new Image("/images/reset.png");
 
@@ -155,6 +154,10 @@ public class DesChiffresNotSim extends State {
     @Override
     public void update(GameContainer gc, float dt) {
         timer += dt;
+        buttonTimeOut -= dt;
+        if (buttonTimeOut < 0) {
+            buttonTimeOut = 0;
+        }
 
         if (result == goalnumber) {
             if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
@@ -238,85 +241,61 @@ public class DesChiffresNotSim extends State {
             reset();
         }
 
-        if (opSelected != 0 || cardUsed == 0) {
-            for (int i = 0; i < length; i++) {
-                if (input.isKeyPressed(azertyMinKeyboardListCode[i])
-                        || input.isKeyPressed(azertyMajKeyboardListCode[i])) {
-                    cardStatus.set(i, false);
-                    if (cardUsed != 0) {
-                        calcul = lastCalulation.replace("b", "(" + calcul + ")").replace("c",
-                                "(" + generatedList.get(i).toString() + ")");
-                    } else {
-                        calcul += generatedList.get(i);
-                    }
-                    cardUsed++;
-                    opSelected = 0;
-                    calculationOfResult();
-                }
-            }
-        }
-
-        if (input.isKeyPressed(38)
-                || input.isKeyPressed(49)) {
-            lastCalulation = "b+c";
-            opSelected = 1;
-        } else if (input.isKeyPressed(233)
-                || input.isKeyPressed(50)) {
-            lastCalulation = "b-c";
-            opSelected = 2;
-        } else if (input.isKeyPressed(34)
-                || input.isKeyPressed(51)) {
-            lastCalulation = "c*b";
-            opSelected = 3;
-        } else if (input.isKeyPressed(39)
-                || input.isKeyPressed(52)) {
-            lastCalulation = "Math.floor(b/c)";
-            opSelected = 4;
-        }
-
         buttonManager.linkInput(input);
 
         JSONObject buttonData = buttonManager.testButtons();
 
-        if (buttonData != null) {
-            if (buttonData.get("type").equals("NumberCard") && (opSelected != 0 || cardUsed == 0)) {
-                int cardIndex = (int) buttonData.get("cardIndex");
-                cardStatus.set(cardIndex, false);
-                if (cardUsed != 0) {
-                    calcul = lastCalulation.replace("b", "(" + calcul + ")").replace("c",
-                            "(" + generatedList.get(cardIndex).toString() + ")");
+        if (buttonData != null && buttonTimeOut == 0) {
+            buttonTimeOut = 0.2f;
+            if (buttonData.get("type").equals("NumberCard")) {
+                if (lastNumberCardSelected != -1 && lastNumberCardSelected != (int) buttonData.get("cardIndex")
+                        && opSelected != 0) {
+                    int result = 0;
+                    System.out.println(currentList.get(lastNumberCardSelected));
+                    System.out.println("Card " + Integer.toString(lastNumberCardSelected + 1) + " and Card "
+                            + Integer.toString((int) buttonData.get("cardIndex") + 1) + " clicked");
+                    switch (opSelected) {
+                        case 1:
+                            result = currentList.get(lastNumberCardSelected)
+                                    + currentList.get((int) buttonData.get("cardIndex"));
+                            break;
+
+                        case 2:
+                            result = currentList.get(lastNumberCardSelected)
+                                    - currentList.get((int) buttonData.get("cardIndex"));
+                            break;
+
+                        case 3:
+                            result = currentList.get(lastNumberCardSelected)
+                                    * currentList.get((int) buttonData.get("cardIndex"));
+                            break;
+
+                        case 4:
+                            result = (int) (currentList.get(lastNumberCardSelected)
+                                    / currentList.get((int) buttonData.get("cardIndex")));
+                            break;
+
+                        default:
+                            break;
+                    }
+                    currentList.remove(lastNumberCardSelected);
+                    if ((int) buttonData.get("cardIndex") > lastNumberCardSelected) {
+                        currentList.remove((int) buttonData.get("cardIndex") - 1);
+                    } else {
+                        currentList.remove((int) buttonData.get("cardIndex"));
+                    }
+                    currentList.add(result);
+
+                    lastNumberCardSelected = -1;
+                    opSelected = 0;
                 } else {
-                    calcul += generatedList.get(cardIndex);
+                    lastNumberCardSelected = (int) buttonData.get("cardIndex");
                 }
-                cardUsed++;
-                opSelected = 0;
-                calculationOfResult();
             } else if (buttonData.get("type").equals("Operator")) {
-                int operator = (int) buttonData.get("operator");
-                if (operator == 1) {
-                    lastCalulation = "b+c";
-                    opSelected = 1;
-                } else if (operator == 2) {
-                    lastCalulation = "b-c";
-                    opSelected = 2;
-                } else if (operator == 3) {
-                    lastCalulation = "c*b";
-                    opSelected = 3;
-                } else if (operator == 4) {
-                    lastCalulation = "Math.floor(b/c)";
-                    opSelected = 4;
-                }
+                opSelected = (int) buttonData.get("operator");
             } else if (buttonData.get("type").equals("Reset")) {
                 reset();
             }
-        }
-
-        if (cardUsed == length) {
-            if (bestScore == 0 || Math.abs(goalnumber - result) < bestScore) {
-                bestScore = Math.abs(goalnumber - result);
-            }
-            reset();
-            pauseInputTimer = 0.5f;
         }
     }
 
@@ -325,9 +304,11 @@ public class DesChiffresNotSim extends State {
         // Render state
         r.drawImage(bgImage, 0, 0, 1920, 1080);
 
+        int length = currentList.size();
+
         int cardNumber = 0;
         for (int i = 0; i < length; i++) {
-            cardNumber += String.valueOf(generatedList.get(i)).length();
+            cardNumber += String.valueOf(currentList.get(i)).length();
         }
         int cardWidthAddition = cardWidth;
         int largeur = cardWidth * cardNumber;
@@ -342,12 +323,16 @@ public class DesChiffresNotSim extends State {
         XOffset = (1920 - (largeur + length * gap) + gap) / 2;
 
         int CurrentX = XOffset;
+        int[] padding = new int[length];
+        if (lastNumberCardSelected != -1) {
+            padding[lastNumberCardSelected] = 20;
+        }
 
         for (int index = 0; index < length; index++) {
-            char[] card = String.valueOf(generatedList.get(index)).toCharArray();
+            char[] card = String.valueOf(currentList.get(index)).toCharArray();
             for (int i = 0; i < card.length; i++) {
                 r.drawImage(new Image("/images/chiffrescard/" + card[i] + ".png"),
-                        CurrentX + i * cardWidth, 900, cardWidth, 150);
+                        CurrentX + i * cardWidth, 900 - padding[index], cardWidth, 150);
             }
             final int cardIndex = index;
             buttonManager.addButton("card" + Integer.toString(cardIndex + 1), new Callable<JSONObject>() {
@@ -368,13 +353,6 @@ public class DesChiffresNotSim extends State {
             r.drawTransparentImage(goalImages.get(i), maskcardGoalImage, 100 + i * 120, 100, 100, 150);
         }
 
-        if (result != 0) {
-            for (int i = 0; i < String.valueOf(result).length(); i++) {
-                r.drawTransparentImage(new Image("/images/chiffrescard/" + String.valueOf(result).charAt(i) + ".png"),
-                        maskcardGoalImage, 100 + i * 120, 300, 100, 150);
-            }
-        }
-
         if (bestScore != 0) {
             for (int i = 0; i < String.valueOf(bestScore).length(); i++) {
                 r.drawTransparentImage(
@@ -383,18 +361,18 @@ public class DesChiffresNotSim extends State {
             }
         }
 
-        int[] padding = { 0, 0, 0, 0 };
+        int[] OpPadding = { 0, 0, 0, 0 };
         if (opSelected != 0) {
-            padding[opSelected - 1] = 20;
+            OpPadding[opSelected - 1] = 20;
         }
 
-        r.drawTransparentImage(new Image("/images/chiffrescard/plus.png"), maskcardImage, 610, 700 - padding[0], 100,
+        r.drawTransparentImage(new Image("/images/chiffrescard/plus.png"), maskcardImage, 610, 700 - OpPadding[0], 100,
                 150);
-        r.drawTransparentImage(new Image("/images/chiffrescard/moins.png"), maskcardImage, 810, 700 - padding[1], 100,
+        r.drawTransparentImage(new Image("/images/chiffrescard/moins.png"), maskcardImage, 810, 700 - OpPadding[1], 100,
                 150);
-        r.drawTransparentImage(new Image("/images/chiffrescard/mult.png"), maskcardImage, 1010, 700 - padding[2], 100,
+        r.drawTransparentImage(new Image("/images/chiffrescard/mult.png"), maskcardImage, 1010, 700 - OpPadding[2], 100,
                 150);
-        r.drawTransparentImage(new Image("/images/chiffrescard/div.png"), maskcardImage, 1210, 700 - padding[3], 100,
+        r.drawTransparentImage(new Image("/images/chiffrescard/div.png"), maskcardImage, 1210, 700 - OpPadding[3], 100,
                 150);
 
         r.drawFillRect(0, 0, Math.round(1920 * timer / maxtimer), 50, 0x000fff);
@@ -409,32 +387,14 @@ public class DesChiffresNotSim extends State {
         // Dispose state
     }
 
-    public void calculationOfResult() {
-        Context cx = Context.enter();
-        try {
-            Scriptable scope = cx.initStandardObjects();
-
-            Object jsOut = Context.javaToJS(System.out, scope);
-            ScriptableObject.putProperty(scope, "out", jsOut);
-
-            result = Integer.parseInt(Context.toString(cx.evaluateString(scope, calcul, "<cmd>", 1, null)));
-        } finally {
-            Context.exit();
-        }
-
-        System.out.println("Result: " + result);
-    }
-
     public void reset() {
         cardStatus.clear();
         for (int i = 0; i < length; i++) {
             cardStatus.add(true);
         }
-        calcul = "";
-        lastCalulation = "";
-        cardUsed = 0;
         opSelected = 0;
         result = 0;
+        currentList = generatedList;
     }
 
     // method to convert ArrayList<Integer> to int[]
