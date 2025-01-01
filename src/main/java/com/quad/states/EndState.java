@@ -15,12 +15,21 @@ import fr.triobin.deschiffresetdeslettres.Score;
 public class EndState extends State {
 
 	private Image bgImage = new Image("/cinematics/one/0250.png");
-	private int player = 3516;
+	private int player;
 
 	@Override
 	public void init(GameContainer gc) {
 		// Initiate state
 		System.out.println("Des Chiffres State Loaded");
+		ArrayList<Score> scores = gc.getGame().cache.scores;
+		//get best player
+		int max = 0;
+		for (int i = 0; i < scores.size(); i++) {
+			if (scores.get(i).getScore() > max) {
+				max = scores.get(i).getScore();
+				player = i;
+			}
+		}
 	}
 
 	@Override
@@ -49,6 +58,8 @@ public class EndState extends State {
 		r.drawFillRect((1920 - rectangleWidth) / 2, 0, rectangleWidth, 200+gap*2, 0x000000);
 		r.drawString("Victoire de", 0xffffff, (1920 - font.getWidthOfString("Victoire de")) / 2, 0+gap);
 		r.drawString("Joueur " + player, 0xffffff, (1920 - font.getWidthOfString("Joueur " + player)) / 2, 100+gap);
+
+		r.drawFillRect(0, 200, 1920, 880, 0x000000);
 
 		DrawScoreTable.drawScoreTable(300, 500, 50, gc.getGame().cache, r);
 	}
