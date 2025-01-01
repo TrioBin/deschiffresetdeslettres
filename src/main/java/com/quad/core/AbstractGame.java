@@ -9,6 +9,7 @@ import com.quad.states.DesLettresSim;
 import com.quad.states.EndState;
 import com.quad.states.GameStartTest;
 import com.quad.states.MenuState;
+import com.quad.states.ReadyState;
 
 /**
  * 
@@ -29,7 +30,7 @@ public class AbstractGame{
 	private boolean paused;
 	
 	//states
-	public static final int NUMSTATES = 8;
+	public static final int NUMSTATES = 9;
 
 	public CacheStorage cache = new CacheStorage();
 	
@@ -51,6 +52,7 @@ public class AbstractGame{
 		if(state == 5) states[5] = new DesLettresNotSim();
 		if(state == 6) states[6] = new DesLettresSim();
 		if(state == 7) states[7] = new EndState();
+		if(state == 8) states[8] = new ReadyState();
 	}
 	
 	private void unloadState(int state) {

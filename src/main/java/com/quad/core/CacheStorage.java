@@ -24,6 +24,8 @@ public class CacheStorage {
     //public int[] roundList = { 1, 2, 1, 2, 1, 2, 1, 2 };
     public int[] roundList = { 1, 2 };
 
+    public int nextState = 3;
+
     public CacheStorage() {
     }
 

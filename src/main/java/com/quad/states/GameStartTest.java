@@ -41,7 +41,7 @@ public class GameStartTest extends State {
 
 		if (gc.getGame().cache.isGameSimultaneous) {
 			if (gc.getGame().cache.currentRound == 1) {
-				gc.getGame().setState(gc, 4);
+				gc.getGame().cache.nextState = 4;
 			}
 		} else {
 			gc.getGame().cache.currentPlayer += 1;
@@ -52,9 +52,9 @@ public class GameStartTest extends State {
 			}
 
 			if (gc.getGame().cache.currentRound > gc.getGame().cache.roundList.length) {
-				gc.getGame().setState(gc, 7);
+				gc.getGame().cache.nextState = 7;
 			} else if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 1) {
-				gc.getGame().setState(gc, 3);
+				gc.getGame().cache.nextState = 3;
 			} else if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 2) {
 				for (int i = 0; i < gc.getGame().cache.bestPlayerInTheRoundId.length; i++) {
 					if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
@@ -65,9 +65,11 @@ public class GameStartTest extends State {
 								.addScore(7);
 					}
 				}
-				gc.getGame().setState(gc, 5);
+				gc.getGame().cache.nextState = 5;
 			}
 		}
+		
+		gc.getGame().setState(gc, 8);
 	}
 
 	@Override
