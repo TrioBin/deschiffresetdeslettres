@@ -15,6 +15,7 @@ import com.quad.states.ReadyState;
  * 
  * 
  * @author Dillan Spencer
+ * @author Ascol57
  * This class handles Game State Changes
  * Updates and renders current state  
  * 
