@@ -38,7 +38,7 @@ public class GameStartTest extends State {
 		}
 
 		if (gc.getGame().cache.isGameWithBot) {
-			if (gc.getGame().cache.currentRound != 0) {
+			if (gc.getGame().cache.currentRound != 1) {
 				if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 1) {
 
 				} else if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 2) {
@@ -123,7 +123,6 @@ public class GameStartTest extends State {
 				}
 			}
 
-			gc.getGame().cache.currentRound += 1;
 			gc.getGame().cache.currentPlayer = 1;
 			for (int i = 0; i < 2; i++) {
 				gc.getGame().cache.scores.add(new Score());
@@ -145,6 +144,8 @@ public class GameStartTest extends State {
 				}
 				gc.getGame().cache.nextState = 5;
 			}
+			
+			gc.getGame().cache.currentRound += 1;
 
 		} else {
 			if (gc.getGame().cache.currentRound == 1 && gc.getGame().cache.currentPlayer == 0) {
