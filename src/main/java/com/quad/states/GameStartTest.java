@@ -151,9 +151,12 @@ public class GameStartTest extends State {
 				}
 			}
 
-			gc.getGame().cache.currentPlayer = 1;
-			for (int i = 0; i < 2; i++) {
-				gc.getGame().cache.scores.add(new Score());
+			if (gc.getGame().cache.currentRound == 1 && gc.getGame().cache.currentPlayer == 0) {
+				gc.getGame().cache.scores = new ArrayList<Score>();
+				for (int i = 0; i <= 2; i++) {
+					gc.getGame().cache.scores.add(new Score());
+				}
+				gc.getGame().cache.currentPlayer = 1;
 			}
 
 			if (gc.getGame().cache.currentRound > gc.getGame().cache.roundList.length) {
