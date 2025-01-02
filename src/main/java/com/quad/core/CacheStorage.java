@@ -17,7 +17,7 @@ public class CacheStorage {
     public boolean isGameSimultaneous = false;
 
     public boolean isGameWithBot = true;
-    public float botDifficulty = 0.5f;
+    public float botDifficulty = 0.7f;
     public JSONObject botData = new JSONObject();
 
     public int currentPlayer = 0;

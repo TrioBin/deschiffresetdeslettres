@@ -21,21 +21,21 @@ public class Compte {
 
         List<Result> newCur = new ArrayList<Result>();
         for (Result cur : solution.current) {
-            for (int l=1; l<cur.steps.length; l++) {
-                for (int r=0; r<l; r++) {
-                    for (int o=0; o<4; o++) {
+            for (int l = 1; l < cur.steps.length; l++) {
+                for (int r = 0; r < l; r++) {
+                    for (int o = 0; o < 4; o++) {
                         Result res = Calculate(cur.steps, l, r, Operation.values()[o]);
                         if (res != null) {
                             res.text = cur.text + res.text + String.format("%n");
 
-                            if (Math.abs(res.value - solution.tirage) < Math.abs(solution.best.value - solution.tirage)) {
+                            if (Math.abs(res.value - solution.tirage) < Math
+                                    .abs(solution.best.value - solution.tirage)) {
                                 solution.best = res;
                             }
 
                             if (solution.best.value == solution.tirage) {
                                 return solution;
-                            }
-                            else {
+                            } else {
                                 newCur.add(res);
                             }
                         }
@@ -59,15 +59,15 @@ public class Compte {
 
     public Result Calculate(int[] steps, int l, int r, Operation op) {
         Result result = new Result();
-        result.steps = new int[steps.length-1];
+        result.steps = new int[steps.length - 1];
         int n = 0;
-        for (int i=0; i<steps.length; i++) {
+        for (int i = 0; i < steps.length; i++) {
             if (i != l && i != r) {
                 result.steps[n] = steps[i];
                 n++;
             }
         }
-        switch(op) {
+        switch (op) {
             case Add: {
                 result.steps[n] = steps[l] + steps[r];
                 result.value = result.steps[n];
@@ -96,7 +96,7 @@ public class Compte {
                 break;
             }
             case Divide: {
-                if (steps[r] != 1 && steps[l] % steps[r] == 0) {
+                if (steps[r] != 0 && steps[r] != 1 && steps[l] % steps[r] == 0) {
                     result.steps[n] = steps[l] / steps[r];
                     result.value = result.steps[n];
                     result.text = String.format("%d / %d = %d%n", steps[l], steps[r], result.value);

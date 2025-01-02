@@ -45,11 +45,10 @@ public class GameStartTest extends State {
 					List<Integer> listPlaquesList = (ArrayList<Integer>) gc.getGame().cache.botData
 							.get("generatedList");
 					int[] listPlaques = listPlaquesList.stream().mapToInt(i -> i).toArray();
-					System.out.println("listPlaques : " + Arrays.toString(listPlaques));
 
 					int i = 0;
 
-					int objective = (int) (listPlaques.length * gc.getGame().cache.botDifficulty);
+					int objective = (int) (listPlaques.length * (1 - gc.getGame().cache.botDifficulty));
 
 					while (i < objective) {
 						// opération aléatoire
@@ -137,7 +136,10 @@ public class GameStartTest extends State {
 					solution = cpt.SolveTirage(solution);
 
 					// Display the result
-					//solution.best.value
+					// solution.best.value
+					System.out.println("listPlaques : " + Arrays.toString(listPlaques));
+					System.out.println("Tirage : " + tirage);
+					System.out.println("Bot result : " + solution.best.text);
 				}
 			}
 
