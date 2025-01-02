@@ -181,6 +181,9 @@ public class DesChiffresNotSim extends State {
         }
 
         if (timer >= maxtimer) {
+            gc.getGame().cache.botData.put("goalnumber", goalnumber);
+            gc.getGame().cache.botData.put("generatedList", generatedList);
+
             Compte cpt = new Compte(convertToIntArray(generatedList));
 
             // Liste de choix de plaques

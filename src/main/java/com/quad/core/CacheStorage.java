@@ -2,6 +2,8 @@ package com.quad.core;
 
 import java.util.ArrayList;
 
+import org.json.simple.JSONObject;
+
 import com.quad.core.components.Cinematic;
 
 import fr.triobin.deschiffresetdeslettres.Score;
@@ -13,6 +15,10 @@ public class CacheStorage {
     public int playerNumber = 1;
     public float chiffreTimer = 45;
     public boolean isGameSimultaneous = false;
+
+    public boolean isGameWithBot = true;
+    public float botDifficulty = 0.5f;
+    public JSONObject botData = new JSONObject();
 
     public int currentPlayer = 0;
     public int currentRound = 1;
