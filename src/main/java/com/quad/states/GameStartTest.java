@@ -61,8 +61,6 @@ public class GameStartTest extends State {
 							randomPlaques[1] += 1;
 						}
 						int result = 0;
-						System.out.println("randomOp : " + randomOp);
-						System.out.println("randomPlaques : " + Arrays.toString(randomPlaques));
 						switch (randomOp) {
 							case 0:
 								result = listPlaques[randomPlaques[0]] + listPlaques[randomPlaques[1]];
@@ -93,12 +91,9 @@ public class GameStartTest extends State {
 							for (int j = 0; j < listPlaques.length; j++) {
 								if (j != randomPlaques[0] && j != randomPlaques[1]) {
 									temp[k++] = listPlaques[j];
-									System.out.println(listPlaques[j] + " : " + Arrays.toString(temp));
 								}
 							}
 							listPlaques = temp;
-
-							System.out.println("temp : " + Arrays.toString(listPlaques));
 
 							// add the result to the list
 							int[] temp2 = new int[listPlaques.length + 1];
@@ -108,8 +103,6 @@ public class GameStartTest extends State {
 							}
 							temp2[listPlaques.length] = result;
 							listPlaques = temp2;
-
-							System.out.println("temp2 : " + Arrays.toString(listPlaques));
 
 							i++;
 						}
@@ -140,13 +133,11 @@ public class GameStartTest extends State {
 					solution.best.value = solution.best.steps[solution.best.steps.length - 1];
 					solution.best.text = String.format("%d", solution.best.value);
 
-					System.out.println("Tirage : " + solution.tirage);
-
 					// Start the recursive resolution
 					solution = cpt.SolveTirage(solution);
 
 					// Display the result
-					System.out.println("Meilleure approche : " + solution.best.text);
+					//solution.best.value
 				}
 			}
 
