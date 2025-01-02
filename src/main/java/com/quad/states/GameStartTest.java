@@ -42,11 +42,11 @@ public class GameStartTest extends State {
 			if (gc.getGame().cache.currentRound != 1) {
 				if (gc.getGame().cache.currentRound > gc.getGame().cache.roundList.length) {
 					gc.getGame().cache.nextState = 7;
-					RoundTypeId = gc.getGame().cache.roundList[gc.getGame().cache.currentRound];
+					RoundTypeId = gc.getGame().cache.roundList[gc.getGame().cache.roundList.length - 1];
 				} else {
 					RoundTypeId = gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1];
 				}
-				
+
 				if (RoundTypeId == 1) {
 
 				} else if (RoundTypeId == 2) {
