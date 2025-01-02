@@ -12,7 +12,7 @@ public class Main {
         gc.setScale(1);
         gc.setTitle("Des chiffres et des lettres");
         gc.setClearScreen(true);
-        gc.setDebug(true);
+        gc.setDebug(false);
         gc.setFrameCap(30);
         gc.start();
         //SoundClip.toggleMute();
