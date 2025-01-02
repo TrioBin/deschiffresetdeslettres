@@ -37,55 +37,82 @@ public class GameStartTest extends State {
 		}
 
 		if (gc.getGame().cache.isGameWithBot) {
+			System.out.println("Bot is playing");
 			if (gc.getGame().cache.currentRound != 1) {
 				if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 1) {
 
 				} else if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 2) {
-					int[] listPlaques = new int[gc.getGame().cache.NumberCardChiffres];
+					List<Integer> listPlaquesList = (ArrayList<Integer>) gc.getGame().cache.botData
+							.get("generatedList");
+					int[] listPlaques = listPlaquesList.stream().mapToInt(i -> i).toArray();
+					System.out.println("listPlaques : " + Arrays.toString(listPlaques));
 
-					for (int i = 0; i < listPlaques.length * gc.getGame().cache.botDifficulty; i++) {
-						//opération aléatoire
-						int randomOp = (int) (Math.random() * 3);
+					int i = 0;
+
+					int objective = (int) (listPlaques.length * gc.getGame().cache.botDifficulty);
+
+					while (i < objective) {
+						// opération aléatoire
+						int randomOp = (int) Math.floor(Math.random() * 4);
 						int[] randomPlaques = new int[2];
-						randomPlaques[0] = (int) (Math.random() * (listPlaques.length - 1));
-						randomPlaques[1] = (int) (Math.random() * (listPlaques.length - 1));
+						randomPlaques[0] = (int) Math.round(Math.random() * (listPlaques.length - 1));
+						randomPlaques[1] = (int) Math.round(Math.random() * (listPlaques.length - 2));
+						if (randomPlaques[1] == randomPlaques[0]) {
+							randomPlaques[1] += 1;
+						}
 						int result = 0;
+						System.out.println("randomOp : " + randomOp);
+						System.out.println("randomPlaques : " + Arrays.toString(randomPlaques));
 						switch (randomOp) {
-						case 0:
-							result = listPlaques[randomPlaques[0]] + listPlaques[randomPlaques[1]];
-							break;
+							case 0:
+								result = listPlaques[randomPlaques[0]] + listPlaques[randomPlaques[1]];
+								break;
 
-						case 1:
-							result = listPlaques[randomPlaques[0]] - listPlaques[randomPlaques[1]];
-							break;
+							case 1:
+								result = listPlaques[randomPlaques[0]] - listPlaques[randomPlaques[1]];
+								break;
 
-						case 2:
-							result = listPlaques[randomPlaques[0]] * listPlaques[randomPlaques[1]];
-							break;
+							case 2:
+								result = listPlaques[randomPlaques[0]] * listPlaques[randomPlaques[1]];
+								break;
 
-						case 3:
-							result = listPlaques[randomPlaques[0]] / listPlaques[randomPlaques[1]];
-							break;
+							case 3:
+								try {
+									result = listPlaques[randomPlaques[0]] / listPlaques[randomPlaques[1]];
+								} catch (ArithmeticException e) {
+									result = listPlaques[randomPlaques[0]];
+								}
+								break;
 						}
-						//remove the used id in int[] listPlaques
-						int[] temp = new int[listPlaques.length - 1];
-						int k = 0;
 
-						for (int j = 0; j < listPlaques.length; j++) {
-							if (j != randomPlaques[0] && j != randomPlaques[1]) {
-								temp[k++] = listPlaques[j];
+						if (result != 0) {
+							// remove the used id in int[] listPlaques
+							int[] temp = new int[listPlaques.length - 1];
+							int k = 0;
+
+							for (int j = 0; j < listPlaques.length; j++) {
+								if (j != randomPlaques[0] && j != randomPlaques[1]) {
+									temp[k++] = listPlaques[j];
+									System.out.println(listPlaques[j] + " : " + Arrays.toString(listPlaques));
+								}
 							}
-						}
-						listPlaques = temp;
+							listPlaques = temp;
 
-						//add the result to the list
-						int[] temp2 = new int[listPlaques.length + 1];
+							System.out.println("temp : " + Arrays.toString(listPlaques));
 
-						for (int j = 0; j < listPlaques.length; j++) {
-							temp2[j] = listPlaques[j];
+							// add the result to the list
+							int[] temp2 = new int[listPlaques.length + 1];
+
+							for (int j = 0; j < listPlaques.length; j++) {
+								temp2[j] = listPlaques[j];
+							}
+							temp2[listPlaques.length] = result;
+							listPlaques = temp2;
+
+							System.out.println("temp2 : " + Arrays.toString(listPlaques));
+
+							i++;
 						}
-						temp2[listPlaques.length] = result;
-						listPlaques = temp2;
 					}
 
 					Compte cpt = new Compte(listPlaques);
@@ -113,11 +140,12 @@ public class GameStartTest extends State {
 					solution.best.value = solution.best.steps[solution.best.steps.length - 1];
 					solution.best.text = String.format("%d", solution.best.value);
 
+					System.out.println("Tirage : " + solution.tirage);
+
 					// Start the recursive resolution
 					solution = cpt.SolveTirage(solution);
 
 					// Display the result
-					System.out.println("Tirage : " + solution.tirage);
 					System.out.println("Meilleure approche : " + solution.best.text);
 				}
 			}
@@ -143,7 +171,7 @@ public class GameStartTest extends State {
 				}
 				gc.getGame().cache.nextState = 5;
 			}
-			
+
 			gc.getGame().cache.currentRound += 1;
 
 		} else {
