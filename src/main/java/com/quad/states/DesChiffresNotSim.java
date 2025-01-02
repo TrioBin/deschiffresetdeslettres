@@ -289,7 +289,9 @@ public class DesChiffresNotSim extends State {
                     } else {
                         currentList.remove((int) buttonData.get("cardIndex"));
                     }
-                    if (currentList.size() == 0) {
+                    if (result == goalnumber) {
+                        reset(result);
+                    } else if (currentList.size() == 0) {
                         reset(result);
                     } else {
                         currentList.add(result);

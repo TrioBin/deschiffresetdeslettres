@@ -87,13 +87,13 @@ public class GameStartTest extends State {
 
 						if (result != 0) {
 							// remove the used id in int[] listPlaques
-							int[] temp = new int[listPlaques.length - 1];
+							int[] temp = new int[listPlaques.length - 2];
 							int k = 0;
 
 							for (int j = 0; j < listPlaques.length; j++) {
 								if (j != randomPlaques[0] && j != randomPlaques[1]) {
 									temp[k++] = listPlaques[j];
-									System.out.println(listPlaques[j] + " : " + Arrays.toString(listPlaques));
+									System.out.println(listPlaques[j] + " : " + Arrays.toString(temp));
 								}
 							}
 							listPlaques = temp;
