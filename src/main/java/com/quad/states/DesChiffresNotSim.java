@@ -117,7 +117,6 @@ public class DesChiffresNotSim extends State {
         buttonManager.addButton("plus", new Callable<JSONObject>() {
             @Override
             public JSONObject call() throws Exception {
-                System.out.println("Plus clicked");
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("type", "Operator");
                 jsonObject.put("operator", 1);
@@ -128,7 +127,6 @@ public class DesChiffresNotSim extends State {
         buttonManager.addButton("moins", new Callable<JSONObject>() {
             @Override
             public JSONObject call() throws Exception {
-                System.out.println("Moins clicked");
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("type", "Operator");
                 jsonObject.put("operator", 2);
@@ -139,7 +137,6 @@ public class DesChiffresNotSim extends State {
         buttonManager.addButton("mult", new Callable<JSONObject>() {
             @Override
             public JSONObject call() throws Exception {
-                System.out.println("Mult clicked");
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("type", "Operator");
                 jsonObject.put("operator", 3);
@@ -150,7 +147,6 @@ public class DesChiffresNotSim extends State {
         buttonManager.addButton("div", new Callable<JSONObject>() {
             @Override
             public JSONObject call() throws Exception {
-                System.out.println("Div clicked");
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("type", "Operator");
                 jsonObject.put("operator", 4);
@@ -262,9 +258,7 @@ public class DesChiffresNotSim extends State {
                 if (lastNumberCardSelected != -1 && lastNumberCardSelected != (int) buttonData.get("cardIndex")
                         && opSelected != 0) {
                     int result = 0;
-                    System.out.println(currentList.get(lastNumberCardSelected));
-                    System.out.println("Card " + Integer.toString(lastNumberCardSelected + 1) + " and Card "
-                            + Integer.toString((int) buttonData.get("cardIndex") + 1) + " clicked");
+
                     switch (opSelected) {
                         case 1:
                             result = currentList.get(lastNumberCardSelected)
@@ -358,7 +352,6 @@ public class DesChiffresNotSim extends State {
             buttonManager.addButton("card" + Integer.toString(cardIndex + 1), new Callable<JSONObject>() {
                 @Override
                 public JSONObject call() throws Exception {
-                    System.out.println("Card " + Integer.toString(cardIndex + 1) + " clicked");
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("type", "NumberCard");
                     jsonObject.put("cardIndex", cardIndex);

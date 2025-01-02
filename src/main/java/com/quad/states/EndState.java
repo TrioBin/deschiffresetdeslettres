@@ -20,7 +20,6 @@ public class EndState extends State {
 	@Override
 	public void init(GameContainer gc) {
 		// Initiate state
-		System.out.println("Des Chiffres State Loaded");
 		ArrayList<Score> scores = gc.getGame().cache.scores;
 		// get best player
 		int max = 0;
@@ -49,8 +48,6 @@ public class EndState extends State {
 
 		Font font = new Font("Verdana", "bold", 100);
 		r.setFont(font);
-
-		System.out.println(font.getWidthOfString("Joueur " + player));
 
 		int gap = 20;
 		int rectangleWidth = Math.max(font.getWidthOfString("Victoire de"), font.getWidthOfString("Joueur " + player))

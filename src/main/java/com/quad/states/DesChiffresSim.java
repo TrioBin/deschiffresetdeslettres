@@ -61,12 +61,10 @@ public class DesChiffresSim extends State {
     public void init(GameContainer gc) {
         bgImage = new Image("/cinematics/one/0250.png");
         // Initiate state
-        System.out.println("Des Chiffres State Loaded");
         NumberList numberList = new NumberList();
         length = gc.getGame().cache.NumberCardChiffres;
         maxtimer = gc.getGame().cache.chiffreTimer;
         goalnumber = (int) Math.round(Math.random() * 999) + 1;
-        System.out.println("Goal Number: " + goalnumber);
 
         for (int i = 0; i < String.valueOf(goalnumber).length(); i++) {
             goalImages.add(new Image("/images/chiffrescard/" + String.valueOf(goalnumber).charAt(i) + ".png"));
@@ -77,8 +75,6 @@ public class DesChiffresSim extends State {
         for (int i = 0; i < length; i++) {
             cardStatus.add(true);
         }
-
-        System.out.println("Generated List: " + generatedList);
 
         int maxgap = 100;
 

@@ -26,7 +26,6 @@ public class CinematicStart extends State {
 		String imagePath = "/cinematics/one/0001.png";
 		loadImage = new Image(imagePath);
 		state = 1;
-		System.out.println("Load Cinematic");
 
 		cache.addCinematic("one", 250);
 

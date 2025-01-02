@@ -23,7 +23,7 @@ public class ButtonManager {
         int height = (int) screenSize.getHeight();
         this.CoeffWidth = (float) (screenSize.getWidth() / gc.getWidth());
         this.CoeffHeight = (float) (screenSize.getHeight() / gc.getHeight());
-        System.out.println("Width: " + CoeffWidth + ", Height: " + CoeffHeight);
+        //System.out.println("Width: " + CoeffWidth + ", Height: " + CoeffHeight);
     }
 
     public void linkInput(Input input) {
@@ -62,7 +62,6 @@ public class ButtonManager {
     }
 
     public void removeButton(String name) {
-        System.out.println("Button " + name + " removed");
         if (name.startsWith("*")) {
             for (Object key : buttons.keySet()) {
                 if (key.toString().startsWith(name.replace("*", ""))) {
@@ -75,6 +74,5 @@ public class ButtonManager {
     }
 
     public void resetButtons() {
-        System.out.println("Buttons reset");
     }
 }

@@ -25,7 +25,6 @@ public class GameStartTest extends State {
 	@Override
 	public void init(GameContainer gc) {
 		// Initiate state
-		System.out.println("Des Chiffres State Loaded");
 	}
 
 	@Override

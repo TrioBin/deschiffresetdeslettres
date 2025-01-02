@@ -26,7 +26,6 @@ public class MenuState extends State {
 		menus[1] = new Image("/images/Menu2.png");
 		menus[2] = new Image("/images/Menu3.png");
 		menus[3] = new Image("/images/MenuAlpha.png");
-		System.out.println("Menu State Loaded");
 	}
 
 	@Override
@@ -50,11 +49,11 @@ public class MenuState extends State {
 			} else if (input.mouseX > 800 * windowMouseX / 1920 && input.mouseX < 1100 * windowMouseX / 1920
 					&& input.mouseY > 600 * windowMouseY / 1080
 					&& input.mouseY < 800 * windowMouseY / 1080) {
-				System.out.println("Menu 2");
+						
 			} else if (input.mouseX > 1500 * windowMouseX / 1920 && input.mouseX < 1800 * windowMouseX / 1920
 					&& input.mouseY > 700 * windowMouseY / 1080
 					&& input.mouseY < 900 * windowMouseY / 1080) {
-				System.out.println("Menu 3");
+
 			}
 		}
 	}
