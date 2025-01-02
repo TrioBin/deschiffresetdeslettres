@@ -37,7 +37,6 @@ public class GameStartTest extends State {
 		}
 
 		if (gc.getGame().cache.isGameWithBot) {
-			System.out.println("Bot is playing");
 			int RoundTypeId = -1;
 			if (gc.getGame().cache.currentRound != 1) {
 				if (gc.getGame().cache.currentRound > gc.getGame().cache.roundList.length) {
@@ -48,7 +47,7 @@ public class GameStartTest extends State {
 				}
 
 				if (RoundTypeId == 1) {
-
+					
 				} else if (RoundTypeId == 2) {
 					List<Integer> listPlaquesList = (ArrayList<Integer>) gc.getGame().cache.botData
 							.get("generatedList");
@@ -57,6 +56,8 @@ public class GameStartTest extends State {
 					int i = 0;
 
 					int objective = (int) (listPlaques.length * (1 - gc.getGame().cache.botDifficulty));
+
+					int botDifferrence;
 
 					while (i < objective) {
 						// opération aléatoire
@@ -145,9 +146,32 @@ public class GameStartTest extends State {
 
 					// Display the result
 					// solution.best.value
-					System.out.println("listPlaques : " + Arrays.toString(listPlaques));
-					System.out.println("Tirage : " + tirage);
-					System.out.println("Bot result : " + solution.best.text);
+					// System.out.println("listPlaques : " + Arrays.toString(listPlaques));
+					// System.out.println("Tirage : " + tirage);
+					// System.out.println("Bot result : " + solution.best.text);
+					botDifferrence = Math.abs(tirage - solution.best.value);
+
+					if (botDifferrence > gc.getGame().cache.bestPlayerInTheRoundValue) {
+						if (botDifferrence == 0) {
+							gc.getGame().cache.scores.get(1).addScore(10);
+						} else {
+							gc.getGame().cache.scores.get(1).addScore(7);
+						}
+					} else if (botDifferrence == gc.getGame().cache.bestPlayerInTheRoundValue) {
+						if (botDifferrence == 0) {
+							gc.getGame().cache.scores.get(0).addScore(10);
+							gc.getGame().cache.scores.get(1).addScore(10);
+						} else {
+							gc.getGame().cache.scores.get(0).addScore(7);
+							gc.getGame().cache.scores.get(1).addScore(7);
+						}
+					} else {
+						if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
+							gc.getGame().cache.scores.get(0).addScore(10);
+						} else {
+							gc.getGame().cache.scores.get(0).addScore(7);
+						}
+					}
 				}
 			}
 
@@ -165,15 +189,6 @@ public class GameStartTest extends State {
 			} else if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 1) {
 				gc.getGame().cache.nextState = 3;
 			} else if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 2) {
-				for (int i = 0; i < gc.getGame().cache.bestPlayerInTheRoundId.length; i++) {
-					if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
-						gc.getGame().cache.scores.get(gc.getGame().cache.bestPlayerInTheRoundId[i] - 1)
-								.addScore(10);
-					} else {
-						gc.getGame().cache.scores.get(gc.getGame().cache.bestPlayerInTheRoundId[i] - 1)
-								.addScore(7);
-					}
-				}
 				gc.getGame().cache.nextState = 5;
 			}
 

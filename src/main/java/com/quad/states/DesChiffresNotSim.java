@@ -208,7 +208,7 @@ public class DesChiffresNotSim extends State {
             // Start the recursive resolution
             solution = cpt.SolveTirage(solution);
 
-            if (solution.best.value == goalnumber) {
+            if (solution.best.value == bestScore) {
                 if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
                     int[] tempArray = Arrays.copyOf(gc.getGame().cache.bestPlayerInTheRoundId,
                             gc.getGame().cache.bestPlayerInTheRoundId.length + 1);
@@ -220,14 +220,14 @@ public class DesChiffresNotSim extends State {
                 gc.getGame().cache.bestPlayerInTheRoundValue = 0;
                 gc.getGame().setState(gc, 2);
             } else {
-                if (Math.abs(solution.best.value - goalnumber) >= gc.getGame().cache.bestPlayerInTheRoundValue) {
-                    if (gc.getGame().cache.bestPlayerInTheRoundValue == Math.abs(solution.best.value - goalnumber)) {
+                if (Math.abs(solution.best.value - bestScore) >= gc.getGame().cache.bestPlayerInTheRoundValue) {
+                    if (gc.getGame().cache.bestPlayerInTheRoundValue == Math.abs(solution.best.value - bestScore)) {
                         gc.getGame().cache.bestPlayerInTheRoundId[gc.getGame().cache.bestPlayerInTheRoundId.length] = gc
                                 .getGame().cache.currentPlayer;
                     } else {
                         gc.getGame().cache.bestPlayerInTheRoundId = new int[] { gc.getGame().cache.currentPlayer };
                     }
-                    gc.getGame().cache.bestPlayerInTheRoundValue = Math.abs(solution.best.value - goalnumber);
+                    gc.getGame().cache.bestPlayerInTheRoundValue = Math.abs(solution.best.value - bestScore);
                 }
                 gc.getGame().setState(gc, 2);
             }
