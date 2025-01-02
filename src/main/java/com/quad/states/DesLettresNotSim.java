@@ -113,7 +113,7 @@ public class DesLettresNotSim extends State {
         r.drawFillRect(0, 0, Math.round(1920 * timer / maxtimer), 50, 0x000fff);
 
         
-        DrawScoreTable.drawScoreTable(50, 50, 50, gc.getGame().cache, r);
+        DrawScoreTable.drawScoreTable(50, 50, 50, gc.getGame().cache, r, gc.getGame().cache.isGameWithBot);
     }
 
     @Override

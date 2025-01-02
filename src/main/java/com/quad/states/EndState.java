@@ -59,7 +59,7 @@ public class EndState extends State {
 
 		//r.drawFillRect(0, 200, 1920, 880, 0x000000);
 
-		DrawScoreTable.drawScoreTable(300, 500, 50, gc.getGame().cache, r);
+		DrawScoreTable.drawScoreTable(300, 700, 50, gc.getGame().cache, r, gc.getGame().cache.isGameWithBot);
 	}
 
 	@Override

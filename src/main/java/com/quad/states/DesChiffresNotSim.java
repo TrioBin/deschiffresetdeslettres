@@ -395,7 +395,7 @@ public class DesChiffresNotSim extends State {
         r.drawImage(resetImage, 1720, 50, 150, 50);
         r.drawImage(resetImage, 1720, 150, 150, 50);
 
-        DrawScoreTable.drawScoreTable(50, 50, 50, gc.getGame().cache, r);
+        DrawScoreTable.drawScoreTable(50, 50, 50, gc.getGame().cache, r, gc.getGame().cache.isGameWithBot);
     }
 
     @Override
