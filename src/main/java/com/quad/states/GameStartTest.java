@@ -39,7 +39,9 @@ public class GameStartTest extends State {
 		if (gc.getGame().cache.isGameWithBot) {
 			System.out.println("Bot is playing");
 			if (gc.getGame().cache.currentRound != 1) {
-				if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 1) {
+				if (gc.getGame().cache.currentRound > gc.getGame().cache.roundList.length) {
+					gc.getGame().cache.nextState = 7;
+				} else if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 1) {
 
 				} else if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 2) {
 					List<Integer> listPlaquesList = (ArrayList<Integer>) gc.getGame().cache.botData
