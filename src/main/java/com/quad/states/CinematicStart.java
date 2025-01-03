@@ -21,6 +21,9 @@ public class CinematicStart extends State {
 
 	@Override
 	public void init(GameContainer gc) {
+		gc.loadSound("/sounds/music1.wav", "jeu");
+        gc.playSound("jeu");
+
 		cache = gc.getGame().cache;
 
 		String imagePath = "/cinematics/one/0001.png";

@@ -91,9 +91,6 @@ public class DesChiffresNotSim extends State {
         resetImage = new Image("/images/reset.png");
         annulImage = new Image("/images/annul.png");
 
-        gc.loadSound("/sounds/rec1.wav", "jeu_chiffres");
-        gc.playSound("jeu_chiffres");
-
         buttonManager = new ButtonManager(gc);
 
         buttonManager.addButton("reset", new Callable<JSONObject>() {
