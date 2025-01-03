@@ -76,6 +76,8 @@ public class DesLettresNotSim extends State {
         }
 
         if (timer >= maxtimer) {
+            String tirageWord = new String(lettres_finales).toLowerCase();
+            gc.getGame().cache.botData.put("tirageLettres", tirageWord);
             gc.getGame().setState(gc, 2);
             ArrayList<DraggableImage> activeImage = new ArrayList<DraggableImage>();
             for (int i = 0; i < images.length; i++) {

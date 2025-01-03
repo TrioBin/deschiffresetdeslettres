@@ -57,7 +57,7 @@ public class EndState extends State {
 		r.drawString("Victoire de", 0xffffff, (1920 - font.getWidthOfString("Victoire de")) / 2, 0 + gap);
 		r.drawString("Joueur " + player, 0xffffff, (1920 - font.getWidthOfString("Joueur " + player)) / 2, 100 + gap);
 
-		//r.drawFillRect(0, 200, 1920, 880, 0x000000);
+		r.drawFillRect(200, 600, 1920-400, 1080-800, 0xaaaaaa);
 
 		DrawScoreTable.drawScoreTable(300, 700, 50, gc.getGame().cache, r, gc.getGame().cache.isGameWithBot);
 	}

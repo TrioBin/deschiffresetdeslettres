@@ -15,6 +15,7 @@ import fr.crusche.beziermanagement.BezierCurve;
 import fr.crusche.deschiffres.Compte;
 import fr.crusche.deschiffres.Result;
 import fr.crusche.deschiffres.Solution;
+import fr.crusche.deslettres.BestWord;
 import fr.triobin.deschiffresetdeslettres.Score;
 
 public class GameStartTest extends State {
@@ -41,13 +42,20 @@ public class GameStartTest extends State {
 			if (gc.getGame().cache.currentRound != 1) {
 				if (gc.getGame().cache.currentRound > gc.getGame().cache.roundList.length) {
 					gc.getGame().cache.nextState = 7;
-					RoundTypeId = gc.getGame().cache.roundList[gc.getGame().cache.roundList.length - 1];
+					RoundTypeId = gc.getGame().cache.roundList[gc.getGame().cache.roundList.length-1];
+					if (RoundTypeId == 1) {
+						RoundTypeId = 2;
+					} else {
+						RoundTypeId = 1;
+					}
 				} else {
 					RoundTypeId = gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1];
 				}
 
 				if (RoundTypeId == 1) {
-					
+					System.out.println("tirage Recue "+gc.getGame().cache.botData.get("tirageLettres"));
+					char[] tirage = ((String) gc.getGame().cache.botData.get("tirageLettres")).toCharArray();
+					System.out.println("RoundTypeId : " + BestWord.getBestWord(tirage, gc.getGame().cache.botDifficulty));
 				} else if (RoundTypeId == 2) {
 					List<Integer> listPlaquesList = (ArrayList<Integer>) gc.getGame().cache.botData
 							.get("generatedList");
@@ -150,8 +158,10 @@ public class GameStartTest extends State {
 					// System.out.println("Tirage : " + tirage);
 					// System.out.println("Bot result : " + solution.best.text);
 					botDifferrence = Math.abs(tirage - solution.best.value);
+					System.out.println("Bot differrence : " + botDifferrence);
+					System.out.println("Player differrence : " + gc.getGame().cache.bestPlayerInTheRoundValue);
 
-					if (botDifferrence > gc.getGame().cache.bestPlayerInTheRoundValue) {
+					if (botDifferrence < gc.getGame().cache.bestPlayerInTheRoundValue) {
 						if (botDifferrence == 0) {
 							gc.getGame().cache.scores.get(1).addScore(10);
 						} else {
