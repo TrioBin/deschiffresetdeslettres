@@ -31,28 +31,29 @@ public class BestWord {
             String ligne = sc.nextLine().toLowerCase(); // On lit chaque ligne du fichier Dictionnaire.txt
             char[] temp = tirage.clone();
             int validité = 0;
-            //System.out.println(Arrays.toString(tirage));
+            // System.out.println(Arrays.toString(tirage));
             for (int i = 0; i < ligne.length(); i++) {
                 for (int j = 0; j < temp.length; j++) {
-                    //System.out.println(ligne.charAt(i) + " " + temp[j]);
+                    // System.out.println(ligne.charAt(i) + " " + temp[j]);
                     if (ligne.charAt(i) == temp[j]) {
                         temp[j] = '0';
                         validité += 1;
                     }
                 }
             }
-            //System.out.println(validité + " " + ligne.length());
+            // System.out.println(validité + " " + ligne.length());
             if (validité == ligne.length()) {
                 System.out.println(ligne);
                 if (possibilities.size() == 0) {
                     possibilities.add(ligne);
                 } else {
-                    if (Math.random() > difficulity)
-                    if (ligne.length() == possibilities.get(0).length()) {
-                        possibilities.add(ligne);
-                    } else if (ligne.length() > possibilities.get(0).length()) {
-                        possibilities.clear();
-                        possibilities.add(ligne);
+                    if (Math.random() < difficulity * (1 + difficulity)) {
+                        if (ligne.length() == possibilities.get(0).length()) {
+                            possibilities.add(ligne);
+                        } else if (ligne.length() > possibilities.get(0).length()) {
+                            possibilities.clear();
+                            possibilities.add(ligne);
+                        }
                     }
                 }
             }
