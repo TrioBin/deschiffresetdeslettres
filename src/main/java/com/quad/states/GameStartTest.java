@@ -53,9 +53,9 @@ public class GameStartTest extends State {
 				}
 
 				if (RoundTypeId == 1) {
-					System.out.println("tirage Recue "+gc.getGame().cache.botData.get("tirageLettres"));
 					char[] tirage = ((String) gc.getGame().cache.botData.get("tirageLettres")).toCharArray();
-					System.out.println("RoundTypeId : " + BestWord.getBestWord(tirage, gc.getGame().cache.botDifficulty));
+					String botWord = BestWord.getBestWord(tirage, gc.getGame().cache.botDifficulty);
+					gc.getGame().cache.scores.get(1).addScore(botWord.length());
 				} else if (RoundTypeId == 2) {
 					List<Integer> listPlaquesList = (ArrayList<Integer>) gc.getGame().cache.botData
 							.get("generatedList");
