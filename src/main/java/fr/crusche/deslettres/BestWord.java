@@ -43,7 +43,6 @@ public class BestWord {
             }
             // System.out.println(validité + " " + ligne.length());
             if (validité == ligne.length()) {
-                System.out.println(ligne);
                 if (possibilities.size() == 0) {
                     possibilities.add(ligne);
                 } else {
