@@ -49,6 +49,7 @@ public class DesChiffresNotSim extends State {
     private Image maskcardImage;
     private Image maskcardGoalImage;
     private Image resetImage;
+    private Image annulImage;
 
     private float pauseInputTimer = 0;
     private float buttonTimeOut = 0;
@@ -88,6 +89,7 @@ public class DesChiffresNotSim extends State {
         maskcardImage = new Image("/images/chiffrescard/maskcard.png");
         maskcardGoalImage = new Image("/images/chiffrescard/maskcardgoal.png");
         resetImage = new Image("/images/reset.png");
+        annulImage = new Image("/images/annul.png");
 
         gc.loadSound("/sounds/rec1.wav", "jeu_chiffres");
         gc.playSound("jeu_chiffres");
@@ -393,7 +395,7 @@ public class DesChiffresNotSim extends State {
         r.drawFillRect(0, 0, Math.round(1920 * timer / maxtimer), 50, 0x000fff);
 
         r.drawImage(resetImage, 1720, 50, 150, 50);
-        r.drawImage(resetImage, 1720, 150, 150, 50);
+        r.drawImage(annulImage, 1720, 150, 150, 50);
 
         DrawScoreTable.drawScoreTable(50, 50, 50, gc.getGame().cache, r, gc.getGame().cache.isGameWithBot);
     }

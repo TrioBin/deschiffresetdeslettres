@@ -1,10 +1,14 @@
 package com.quad.states;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
+
+import org.json.simple.JSONObject;
 
 import com.quad.core.GameContainer;
 import com.quad.core.Input;
 import com.quad.core.Renderer;
+import com.quad.core.components.ButtonManager;
 import com.quad.core.components.State;
 import com.quad.core.fx.Font;
 import com.quad.core.fx.Image;
@@ -15,7 +19,11 @@ import fr.triobin.deschiffresetdeslettres.Score;
 public class EndState extends State {
 
 	private Image bgImage = new Image("/cinematics/one/0250.png");
+	private Image returnImage = new Image("/images/return.png");
+
 	private int player;
+
+	private ButtonManager buttonManager;
 
 	@Override
 	public void init(GameContainer gc) {
@@ -29,6 +37,17 @@ public class EndState extends State {
 				player = i + 1;
 			}
 		}
+
+		buttonManager = new ButtonManager(gc);
+
+		buttonManager.addButton("return", new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("type", "return");
+                return jsonObject;
+            }
+        }, 1920 - 150 - 100, 1080 - 50 - 100, 150, 50);
 	}
 
 	@Override
@@ -38,6 +57,16 @@ public class EndState extends State {
 		// if s
 		if (input.isKeyPressed(27)) {
 			gc.stop();
+		}
+
+		buttonManager.linkInput(input);
+
+		JSONObject buttonData = buttonManager.testButtons();
+
+        if (buttonData != null) {
+			if (buttonData.get("type").equals("return")) {
+				gc.getGame().setState(gc, 1);
+			}
 		}
 	}
 
@@ -81,6 +110,8 @@ public class EndState extends State {
 		r.drawFillRect(200, 600, 1920 - 400, 1080 - 800, 0xaaaaaa);
 
 		DrawScoreTable.drawScoreTable(300, 700, 50, gc.getGame().cache, r, gc.getGame().cache.isGameWithBot);
+
+		r.drawImage(returnImage, 1920 - 150 - 100, 1080 - 50 - 100, 150, 50);
 	}
 
 	@Override
