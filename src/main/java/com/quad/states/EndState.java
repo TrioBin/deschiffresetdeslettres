@@ -48,16 +48,37 @@ public class EndState extends State {
 
 		Font font = new Font("Verdana", "bold", 100);
 		r.setFont(font);
-
 		int gap = 20;
-		int rectangleWidth = Math.max(font.getWidthOfString("Victoire de"), font.getWidthOfString("Joueur " + player))
-				+ gap * 2;
 
-		r.drawFillRect((1920 - rectangleWidth) / 2, 0, rectangleWidth, 200 + gap * 2, 0x000000);
-		r.drawString("Victoire de", 0xffffff, (1920 - font.getWidthOfString("Victoire de")) / 2, 0 + gap);
-		r.drawString("Joueur " + player, 0xffffff, (1920 - font.getWidthOfString("Joueur " + player)) / 2, 100 + gap);
+		if (gc.getGame().cache.isGameWithBot) {
+			if (player == 1) {
+				int rectangleWidth = Math.max(font.getWidthOfString("Victoire du"),
+						font.getWidthOfString("Joueur"))
+						+ gap * 2;
+				r.drawFillRect((1920 - rectangleWidth) / 2, 0, rectangleWidth, 200 + gap * 2, 0x000000);
+				r.drawString("Victoire du", 0xffffff, (1920 - font.getWidthOfString("Victoire de")) / 2, 0 + gap);
+				r.drawString("Joueur", 0xffffff, (1920 - font.getWidthOfString("Joueur " + player)) / 2,
+						100 + gap);
+			} else if (player == 2) {
+				int rectangleWidth = Math.max(font.getWidthOfString("Victoire du"),
+						font.getWidthOfString("Bot"))
+						+ gap * 2;
+				r.drawFillRect((1920 - rectangleWidth) / 2, 0, rectangleWidth, 200 + gap * 2, 0x000000);
+				r.drawString("Victoire du", 0xffffff, (1920 - font.getWidthOfString("Victoire de")) / 2, 0 + gap);
+				r.drawString("Bot", 0xffffff, (1920 - font.getWidthOfString("Joueur " + player)) / 2,
+						100 + gap);
+			}
+		} else {
+			int rectangleWidth = Math.max(font.getWidthOfString("Victoire de"),
+					font.getWidthOfString("Joueur " + player))
+					+ gap * 2;
+			r.drawFillRect((1920 - rectangleWidth) / 2, 0, rectangleWidth, 200 + gap * 2, 0x000000);
+			r.drawString("Victoire de", 0xffffff, (1920 - font.getWidthOfString("Victoire de")) / 2, 0 + gap);
+			r.drawString("Joueur " + player, 0xffffff, (1920 - font.getWidthOfString("Joueur " + player)) / 2,
+					100 + gap);
+		}
 
-		r.drawFillRect(200, 600, 1920-400, 1080-800, 0xaaaaaa);
+		r.drawFillRect(200, 600, 1920 - 400, 1080 - 800, 0xaaaaaa);
 
 		DrawScoreTable.drawScoreTable(300, 700, 50, gc.getGame().cache, r, gc.getGame().cache.isGameWithBot);
 	}

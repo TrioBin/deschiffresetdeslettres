@@ -158,8 +158,6 @@ public class GameStartTest extends State {
 					// System.out.println("Tirage : " + tirage);
 					// System.out.println("Bot result : " + solution.best.text);
 					botDifferrence = Math.abs(tirage - solution.best.value);
-					System.out.println("Bot differrence : " + botDifferrence);
-					System.out.println("Player differrence : " + gc.getGame().cache.bestPlayerInTheRoundValue);
 
 					if (botDifferrence < gc.getGame().cache.bestPlayerInTheRoundValue) {
 						if (botDifferrence == 0) {
