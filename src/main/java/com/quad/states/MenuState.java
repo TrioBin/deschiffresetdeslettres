@@ -1,8 +1,13 @@
 package com.quad.states;
 
+import java.util.concurrent.Callable;
+
+import org.json.simple.JSONObject;
+
 import com.quad.core.GameContainer;
 import com.quad.core.Input;
 import com.quad.core.Renderer;
+import com.quad.core.components.ButtonManager;
 import com.quad.core.components.ImageUtils;
 import com.quad.core.components.State;
 import com.quad.core.fx.Image;
@@ -15,8 +20,7 @@ public class MenuState extends State {
 	private Image[] menus = new Image[4];
 	private float fadeFactor = 0f;
 
-	private int windowMouseX = 1535;
-	private int windowMouseY = 863;
+	ButtonManager buttonManager;
 
 	@Override
 	public void init(GameContainer gc) {
@@ -26,6 +30,26 @@ public class MenuState extends State {
 		menus[1] = new Image("/images/Menu2.png");
 		menus[2] = new Image("/images/Menu3.png");
 		menus[3] = new Image("/images/MenuAlpha.png");
+
+		buttonManager = new ButtonManager(gc);
+
+		buttonManager.addButton("HvsH", new Callable<JSONObject>() {
+            @Override
+            public JSONObject call() throws Exception {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("type", "HvsH");
+                return jsonObject;
+            }
+        }, 300, 700, 300, 200);
+
+		buttonManager.addButton("HvsAI", new Callable<JSONObject>() {
+			@Override
+			public JSONObject call() throws Exception {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("type", "HvsAI");
+				return jsonObject;
+			}
+		}, 1320, 700, 300, 200);
 	}
 
 	@Override
@@ -41,19 +65,17 @@ public class MenuState extends State {
 		// 	System.out.print(input.mouseX + " " + input.mouseY);
 		// }
 
-		if (input.isButton(1)) {
-			if (input.mouseX > 300 * windowMouseX / 1920 && input.mouseX < 600 * windowMouseX / 1920
-					&& input.mouseY > 700 * windowMouseY / 1080
-					&& input.mouseY < 900 * windowMouseY / 1080) {
-						gc.getGame().setState(gc, 2);
-			} else if (input.mouseX > 800 * windowMouseX / 1920 && input.mouseX < 1100 * windowMouseX / 1920
-					&& input.mouseY > 600 * windowMouseY / 1080
-					&& input.mouseY < 800 * windowMouseY / 1080) {
-						
-			} else if (input.mouseX > 1500 * windowMouseX / 1920 && input.mouseX < 1800 * windowMouseX / 1920
-					&& input.mouseY > 700 * windowMouseY / 1080
-					&& input.mouseY < 900 * windowMouseY / 1080) {
+		buttonManager.linkInput(input);
 
+        JSONObject buttonData = buttonManager.testButtons();
+
+		if (buttonData != null) {
+			if (buttonData.get("type").equals("HvsH")) {
+				gc.getGame().cache.isGameWithBot = false;
+				gc.getGame().setState(gc, 2);
+			} else if (buttonData.get("type").equals("HvsAI")) {
+				gc.getGame().cache.isGameWithBot = true;
+				gc.getGame().setState(gc, 2);
 			}
 		}
 	}
@@ -76,9 +98,7 @@ public class MenuState extends State {
 
 		r.drawTransparentImage(menus[0], ImageUtils.lightenImage(menus[3], fadeFactor), 300, 700, 300,
 				200);
-		r.drawTransparentImage(menus[1], ImageUtils.lightenImage(menus[3], fadeFactor), 800, 600, 300,
-				200);
-		r.drawTransparentImage(menus[2], ImageUtils.lightenImage(menus[3], fadeFactor), 1500, 700, 300,
+		r.drawTransparentImage(menus[1], ImageUtils.lightenImage(menus[3], fadeFactor), 1320, 700, 300,
 				200);
 	}
 

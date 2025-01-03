@@ -47,7 +47,7 @@ public class DesLettresNotSim extends State {
         bin = new Image("/images/corbeille.png");
         binMask = new Image("/images/corbeillemask.png");
 
-        maxtimer = 30;
+        maxtimer = gc.getGame().cache.lettreTimer;
     }
 
     @Override
