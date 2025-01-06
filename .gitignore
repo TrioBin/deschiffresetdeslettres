@@ -4,3 +4,4 @@ target
 generateImages/node_modules
 src/main/resources/fonts/*
 *.class
+code.jar
