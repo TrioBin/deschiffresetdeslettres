@@ -25,7 +25,7 @@ import com.quad.states.ReadyState;
 public class AbstractGame{
 	
 	private State[] states;
-	private int currentState = 0;
+	private int currentState = 1;
 	
 	//Pause
 	private boolean paused;
