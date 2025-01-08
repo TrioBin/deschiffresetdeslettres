@@ -5,6 +5,7 @@ import java.util.concurrent.Callable;
 
 import org.json.simple.JSONObject;
 
+import com.quad.core.CacheStorage;
 import com.quad.core.GameContainer;
 import com.quad.core.Input;
 import com.quad.core.Renderer;
@@ -65,6 +66,15 @@ public class EndState extends State {
 
         if (buttonData != null) {
 			if (buttonData.get("type").equals("return")) {
+				CacheStorage cache = gc.getGame().cache;
+				cache.isGameWithBot = false;
+				cache.currentRound = 1;
+				cache.botData = new JSONObject();
+				cache.currentPlayer = 0;
+				cache.bestPlayerInTheRoundId = new int[0];
+				cache.bestPlayerInTheRoundValue = -1;
+				cache.nextState = 3;
+				cache.scores = new ArrayList<Score>();
 				gc.getGame().setState(gc, 1);
 			}
 		}
@@ -86,7 +96,7 @@ public class EndState extends State {
 						+ gap * 2;
 				r.drawFillRect((1920 - rectangleWidth) / 2, 0, rectangleWidth, 200 + gap * 2, 0x000000);
 				r.drawString("Victoire du", 0xffffff, (1920 - font.getWidthOfString("Victoire de")) / 2, 0 + gap);
-				r.drawString("Joueur", 0xffffff, (1920 - font.getWidthOfString("Joueur " + player)) / 2,
+				r.drawString("Joueur", 0xffffff, (1920 - font.getWidthOfString("Joueur")) / 2,
 						100 + gap);
 			} else if (player == 2) {
 				int rectangleWidth = Math.max(font.getWidthOfString("Victoire du"),
@@ -94,7 +104,7 @@ public class EndState extends State {
 						+ gap * 2;
 				r.drawFillRect((1920 - rectangleWidth) / 2, 0, rectangleWidth, 200 + gap * 2, 0x000000);
 				r.drawString("Victoire du", 0xffffff, (1920 - font.getWidthOfString("Victoire de")) / 2, 0 + gap);
-				r.drawString("Bot", 0xffffff, (1920 - font.getWidthOfString("Joueur " + player)) / 2,
+				r.drawString("Bot", 0xffffff, (1920 - font.getWidthOfString("Bot")) / 2,
 						100 + gap);
 			}
 		} else {

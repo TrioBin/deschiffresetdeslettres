@@ -265,8 +265,14 @@ public class DesChiffresNotSim extends State {
                             break;
 
                         case 2:
-                            result = currentList.get(lastNumberCardSelected)
-                                    - currentList.get((int) buttonData.get("cardIndex"));
+                            if (currentList.get(lastNumberCardSelected) < currentList
+                                    .get((int) buttonData.get("cardIndex"))) {
+                                result = currentList.get((int) buttonData.get("cardIndex"))
+                                        - currentList.get(lastNumberCardSelected);
+                            } else {
+                                result = currentList.get(lastNumberCardSelected)
+                                        - currentList.get((int) buttonData.get("cardIndex"));
+                            }
                             break;
 
                         case 3:
@@ -394,7 +400,7 @@ public class DesChiffresNotSim extends State {
         r.drawImage(resetImage, 1720, 50, 150, 50);
         r.drawImage(annulImage, 1720, 150, 150, 50);
 
-        DrawScoreTable.drawScoreTable(50, 50, 50, gc.getGame().cache, r, gc.getGame().cache.isGameWithBot);
+        DrawScoreTable.drawScoreTable(700, 50, 50, gc.getGame().cache, r, gc.getGame().cache.isGameWithBot);
     }
 
     @Override

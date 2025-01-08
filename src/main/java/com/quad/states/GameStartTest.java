@@ -55,6 +55,7 @@ public class GameStartTest extends State {
 				if (RoundTypeId == 1) {
 					char[] tirage = ((String) gc.getGame().cache.botData.get("tirageLettres")).toCharArray();
 					String botWord = BestWord.getBestWord(tirage, gc.getGame().cache.botDifficulty);
+					System.out.println("Mot de l'IA : " + botWord);
 					gc.getGame().cache.scores.get(1).addScore(botWord.length());
 				} else if (RoundTypeId == 2) {
 					List<Integer> listPlaquesList = (ArrayList<Integer>) gc.getGame().cache.botData
@@ -156,7 +157,7 @@ public class GameStartTest extends State {
 					// solution.best.value
 					// System.out.println("listPlaques : " + Arrays.toString(listPlaques));
 					// System.out.println("Tirage : " + tirage);
-					// System.out.println("Bot result : " + solution.best.text);
+					System.out.println("Résultat de l'IA : " + solution.best.text);
 					botDifferrence = Math.abs(tirage - solution.best.value);
 
 					if (botDifferrence < gc.getGame().cache.bestPlayerInTheRoundValue) {
@@ -227,13 +228,15 @@ public class GameStartTest extends State {
 				} else if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 1) {
 					gc.getGame().cache.nextState = 3;
 				} else if (gc.getGame().cache.roundList[gc.getGame().cache.currentRound - 1] == 2) {
-					for (int i = 0; i < gc.getGame().cache.bestPlayerInTheRoundId.length; i++) {
-						if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
-							gc.getGame().cache.scores.get(gc.getGame().cache.bestPlayerInTheRoundId[i] - 1)
-									.addScore(10);
-						} else {
-							gc.getGame().cache.scores.get(gc.getGame().cache.bestPlayerInTheRoundId[i] - 1)
-									.addScore(7);
+					if (gc.getGame().cache.currentPlayer == 1) {
+						for (int i = 0; i < gc.getGame().cache.bestPlayerInTheRoundId.length; i++) {
+							if (gc.getGame().cache.bestPlayerInTheRoundValue == 0) {
+								gc.getGame().cache.scores.get(gc.getGame().cache.bestPlayerInTheRoundId[i] - 1)
+										.addScore(10);
+							} else {
+								gc.getGame().cache.scores.get(gc.getGame().cache.bestPlayerInTheRoundId[i] - 1)
+										.addScore(7);
+							}
 						}
 					}
 					gc.getGame().cache.nextState = 5;
